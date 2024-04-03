@@ -1,0 +1,238 @@
+<div class="lack-form">
+    <h3>{{formularName}}</h3>
+    <p-tabView>
+        <p-tabPanel header="One day or more">
+            <form #myForm="ngForm" (ngSubmit)="openAlertAndCreateSurplus()">
+
+                <div class="form-general-info form-row">
+                    <div class="form-element">
+                        <date-range-picker (daysDifferenceChange)="onDaysDifferenceChange($event)"
+                            (dateRangeSelected)="onDateRangeSelected($event)">
+                        </date-range-picker>
+                        <div class="hints">
+                            <p *ngIf="daysDifference">{{ daysDifference }} days selected</p>
+                        </div>
+                    </div>
+
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Shift</mat-label>
+                            <mat-select name="shift1" [(ngModel)]="selectedShift" required>
+                                <mat-option *ngFor="let shift of shifts" [value]="shift.value">{{ shift.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="hints">
+                            <p *ngIf="selectedShift"> Hour Interval: {{ showShiftInterval(selectedShift)}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row form-general-info">
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Department</mat-label>
+                            <mat-select name="department" [(ngModel)]="selectedDepartment" required>
+                                <mat-option *ngFor="let department of departments"
+                                    [value]="department.value">{{department.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="hints">
+                        </div>
+                    </div>
+
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Function</mat-label>
+                            <mat-select name="function" [(ngModel)]="selectedFunction" required>
+                                <mat-option *ngFor="let fun of funs" 
+                                [value]="fun.value">{{ fun.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="hints">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row form-general-info">
+                    <div class="form-element">
+                        <multiple-select (selectedOptionsChange)="onSelectedOptionsChange($event)"></multiple-select>
+                    </div>
+
+                    <div class="form-element">
+                        <mat-form-field class="number-input">
+                            <input matInput type="number" name="totalEmployees" id="totalEmployees1"
+                                [placeholder]="'No. of people'" min="1" max="100" required [(ngModel)]="totalEmployees"
+                                #name="ngModel">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <button mat-button class="submit-btn" type="submit" id="submit-btn1" [disabled]="!myForm.form.valid"
+                    [ngStyle]="{'background-color': !myForm.form.valid ? '#808080' : '', 'border':!myForm.form.valid ? '1px solid #808080' : ''}">Submit</button>
+                <button mat-button (click)="closeDialog()" class="close-btn" type="button">Cancel</button>
+
+            </form>
+        </p-tabPanel>
+
+        <p-tabPanel header="Less than one day">
+            <form #myForm="ngForm" (ngSubmit)="openAlertAndCreateSurplus()">
+
+                <div class="form-general-info form-row">
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Choose a date</mat-label>
+                            <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event.value)">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div class="hints">
+                            <p *ngIf="date2"> Selected start date: {{ date2 | date:'MMM dd yy' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Shift</mat-label>
+                            <mat-select name="shift2" [(ngModel)]="selectedShift"
+                                (ngModelChange)="handleShiftHours($event)" required>
+                                <mat-option *ngFor="let shift of shifts" [value]="shift.value">{{ shift.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="hints">
+                            <p *ngIf="selectedShift"> Hour Interval: {{ showShiftInterval(selectedShift)}}</p>
+                        </div>
+                    </div>
+                </div>
+
+				<div class="form-general-info form-row warning-container">
+					<p class="warning" *ngIf="!isIntervalValid()">Required time interval of at least 2 hours</p>
+				</div>
+
+                <div class="form-general-info form-row">
+                    <div class="form-element">
+                        <div class="form-element">
+                            <ngb-timepicker [(ngModel)]="startTime" name="timepicker1" [hourStep]="hourStep"
+                                [minuteStep]="minuteStep"></ngb-timepicker>
+                            <hr />
+                            <div class="hints">
+                                <p *ngIf="selectedShift">Start Time: {{ convertTimeToDate(startTime) | date: 'HH:mm' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-element">
+                        <div class="form-element">
+                            <ngb-timepicker [(ngModel)]="endTime" name="timepicker2" [hourStep]="hourStep"
+                                [minuteStep]="minuteStep" (ngModelChange)="handleEndTimeChange()"
+                                [disabled]="!isIntervalValid()" required>
+                            </ngb-timepicker>
+                            <hr />
+                            <div class="hints">
+                                <p *ngIf="selectedShift">
+									End Time: {{ convertTimeToDate(endTime) | date: 'HH:mm' }}
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row form-general-info">
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Department</mat-label>
+                            <mat-select name="department" [(ngModel)]="selectedDepartment" required>
+                                <mat-option *ngFor="let department of departments"
+                                    [value]="department.value">{{department.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="hints"></div>
+                    </div>
+
+                    <div class="form-element">
+                        <mat-form-field>
+                            <mat-label>Function</mat-label>
+                            <mat-select name="function" [(ngModel)]="selectedFunction" required>
+                                <mat-option *ngFor="let fun of funs" [value]="fun.value">{{ fun.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="hints"></div>
+                    </div>
+                </div>
+
+                <div class="form-row form-general-info">
+
+                    <div class="form-element">
+                        <multiple-select (selectedOptionsChange)="onSelectedOptionsChange($event)"></multiple-select>
+                    </div>
+
+                    <div class="form-element">
+                        <mat-form-field class="number-input">
+                            <input matInput type="number" name="totalEmployees" id="totalEmployees2"
+                                [placeholder]="'No of people'" min="1" max="100" required [(ngModel)]="totalEmployees"
+                                #name="ngModel">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <button
+					class="submit-btn"
+					type="submit"
+					id="submit-btn2"
+					[disabled]="!myForm.form.valid || !isIntervalValid()"
+					[ngStyle]="{'background-color': (!myForm.form.valid || !isIntervalValid()) ? '#808080' : '', 'border': ( !myForm.form.valid || !isIntervalValid()) ? '1px solid #808080' : ''}" >
+						Submit
+				</button>
+
+                <button (click)="closeDialog()" class="close-btn" type="button">Cancel</button>
+
+            </form>
+        </p-tabPanel>
+    </p-tabView>
+
+    <!------------------------ SECOND PAGE OF THE FORM - REQUEST TABLE DETAILS --------------------------------->
+    <!-- ROW TO BE REPEATED FOR EACH EMPLOYEE -->
+
+    <!-- <div>
+                    <div *ngFor="let emp of employeeArray" class="form-row form-details-row">
+                        <div class="form-element">
+                            <mat-form-field>
+                                <mat-label>Emp ID: {{ emp }}</mat-label>
+                                <input matInput placeholder="00000">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-element">
+                            <mat-form-field>
+                                <mat-label>Shift</mat-label>
+                                <mat-select name="shift" [(ngModel)]="emp.selectedShift">
+                                    <mat-option *ngFor="let shift of shifts" [value]="shift.value">{{ shift.viewValue
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-element">
+                            <mat-form-field>
+                                <mat-label>Function</mat-label>
+                                <mat-select name="function" [(ngModel)]="emp.selectedFunction">
+                                    <mat-option *ngFor="let fun of funs" [value]="fun.value">{{ fun.viewValue }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="form-element">
+                            <multiple-select (selectedOptionsChange)="onSelectedOptionsChange($event)"></multiple-select>
+                        </div>
+                    </div>
+
+                </div> -->
+
+    <!-- <button mat-button (click)="nextFormPage()" class="submit-btn" type="submit" id="next-btn">Next</button>
+                <button mat-button (click)="backFormPage()" class="submit-btn hidden" type="submit" id="back-btn">Back</button> -->
+
+</div>

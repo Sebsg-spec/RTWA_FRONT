@@ -1,0 +1,16 @@
+<div class="lack-form">
+	<form #myForm="ngForm">
+		<div class="form-row form-general-info">
+			<h3>Are you sure you want to submit?</h3>
+		</div>
+		<button mat-button *ngIf="buttontype === 'submit'" (click)="confirmYes()" class="submit-btn"
+			type="button">Yes</button>
+		<button mat-button *ngIf="buttontype === 'submit'" (click)="confirmNo()" class="close-btn"
+			type="button">No</button>
+
+		<button mat-button *ngIf="buttontype !== 'submit'" (click)="confirmYesUser()" class="submit-btn"
+			type="button">Yes</button>
+		<button mat-button *ngIf="buttontype !== 'submit'" (click)="confirmNo()" class="close-btn"
+			type="button">No</button>
+	</form>
+</div>

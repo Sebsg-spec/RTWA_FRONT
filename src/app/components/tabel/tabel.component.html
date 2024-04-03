@@ -1,0 +1,25 @@
+<div class="table">
+    <thead>
+        <tr>
+          <th *ngFor="let column of tableColumns">{{ column }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData">
+          <td *ngFor="let column of tableColumns">{{ row.shift }}</td>
+          <td *ngFor="let column of tableColumns">{{ row.department}}</td>
+          <td *ngFor="let column of tableColumns">{{ row.functions}}</td>
+          <td *ngFor="let column of tableColumns">{{ row.startDate }}</td>
+          <td *ngFor="let column of tableColumns">{{ row.endDate }}</td>
+          <td *ngFor="let column of tableColumns">{{ row.shift }}</td>
+          <td *ngFor="let column of tableColumns">{{ row.totalEmployees }}</td>
+            <td class = "button-div">
+                <button (click)="navigateToOpenView()">Open</button>
+                <button (click)="alertAndSubmit()">Accept All</button>
+            </td>
+        </tr>
+    </tbody>
+
+</div>
+<router-outlet></router-outlet>
+

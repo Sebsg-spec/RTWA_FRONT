@@ -1,0 +1,57 @@
+<div class="div sidebar-wrapper">
+	<div class="sidebar close" [ngClass]="{'close': isSidebarClosed}">
+		<section class="sidebar" id="sidebar">
+
+			<nav>
+				<ul class="top-nav">
+					<li>
+						<div class="home-content">
+							<img class="close-menu" src="assets/img/menu.png" alt="" (click)="toggleSidebar()">
+						</div>
+					</li>
+					<li>
+						<a routerLink="/">
+							<img src="assets/img/home.png" alt="">
+							<div class="text">
+								Home
+							</div>
+						</a>
+					</li>
+					<li>
+						<a routerLink="/surplusPage">
+							<img src="assets/img/user-add.png" alt="">
+							<div class="text">
+								Personnel Offer
+							</div>
+						</a>
+					</li>
+					<li>
+						<a routerLink="/lackPage">
+							<img src="assets/img/user-remove.png" alt="">
+							<div class="text">
+								Personnel Demand
+							</div>
+						</a>
+					</li>
+				</ul>
+				<ul class="bottom-nav">
+					<li>
+						<a>
+							<img src="assets/img/my-brand-frame.png" alt="">
+							<div class="text">
+								{{this.user}}
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<img src="assets/img/security-lock-white.png" alt="">
+							<div style="text-transform: capitalize;">{{ this.userRole }} role</div>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</section>
+	</div>
+</div>
+<router-outlet></router-outlet>

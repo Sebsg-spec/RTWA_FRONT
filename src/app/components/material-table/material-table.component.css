@@ -1,0 +1,57 @@
+.example-container {
+	display: flex;
+	flex-direction: column;
+	min-width: 300px;
+	margin-left: 240px;
+	margin-right: 10px;
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.button-container button {
+	height: 40px;
+	font-size: 0.8em;
+	background-color: #007BC0;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 0 15px;
+	flex-shrink: 0;
+}
+
+.button-container button:hover {
+	background-color: #005B8E;
+}
+
+.button-container button:before {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+
+.warning-icon {
+	width: 20px;
+	/* Adjust size as needed */
+	height: 20px;
+	/* Adjust size as needed */
+}
+
+::ng-deep button.disabled {
+	background-color: lightgray !important;
+	color: darkgray !important;
+	cursor: not-allowed !important;
+}
+
+::ng-deep button.disabled:hover {
+	background-color: lightgray !important;
+	color: darkgray !important;
+	cursor: not-allowed !important;
+	transform: scale(1) !important;
+}

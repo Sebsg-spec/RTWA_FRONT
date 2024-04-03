@@ -1,0 +1,30 @@
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Center everything vertically */
+  }
+  
+  .loading-container,
+  .content-container {
+    text-align: center;
+  }
+  
+  .image-container {
+    margin-top: 20px; /* Adjust spacing between the text and the image */
+  }
+  
+  .button {
+    margin-top: 10px; /* Adjust spacing between the image and the button */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  

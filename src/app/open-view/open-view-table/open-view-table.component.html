@@ -1,0 +1,70 @@
+<div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+ 
+     
+ 
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+      </ng-container>
+ 
+      <!-- Function Column -->
+      <ng-container matColumnDef="function">
+        <mat-header-cell *matHeaderCellDef> Function </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.functions}} </mat-cell>
+      </ng-container>
+ 
+      <!-- Competences Column -->
+      <ng-container matColumnDef="competences">
+        <mat-header-cell *matHeaderCellDef> Competences </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.competences}} </mat-cell>
+      </ng-container>
+ 
+      <!-- Department Column -->
+      <ng-container matColumnDef="department">
+        <mat-header-cell *matHeaderCellDef> Department </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+      </ng-container>
+ 
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="startdate">
+        <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.startdate  | date: 'dd MMM yyyy - HH:mm'}} </mat-cell>
+      </ng-container>
+ 
+      <!-- End Date Column -->
+      <ng-container matColumnDef="enddate">
+        <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.enddate | date: 'dd MMM yyyy - HH:mm'}} </mat-cell>
+      </ng-container>
+ 
+       <!-- Checkbox Column -->
+       <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          
+          <mat-checkbox (change)="masterToggle()"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        labelPosition="before"
+                        class="mat-accent hidden-checkbox" >
+         Select All </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      
+      
+ 
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+               (click)="selection.toggle(row)">
+      </mat-row>
+    </mat-table>
+  </div>
+ 

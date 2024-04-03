@@ -1,0 +1,7 @@
+{
+    "gitlens.proxy": {
+
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+}

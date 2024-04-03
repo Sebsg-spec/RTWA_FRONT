@@ -1,0 +1,7 @@
+<button (click)="openPopup()"
+		[disabled]="userRole == 'viewer'"
+		[ngClass]="{ 'disabled': userRole == 'viewer' }"
+		[matTooltip]="userRole == 'viewer' ? 'You don\'t have the necessary access level' : ''"
+		>{{[buttonText]}}
+
+</button>
