@@ -9,16 +9,16 @@
 							<img class="close-menu" src="assets/img/menu.png" alt="" (click)="toggleSidebar()">
 						</div>
 					</li>
-					<li>
-						<a routerLink="/">
-							<img src="assets/img/home.png" alt="">
+					<li *ngIf="userRole === 'admin'">
+						<a routerLink="/dashboard">
+							<img src="assets/img/business.png" alt="">
 							<div class="text">
-								Home
+								Dashboard
 							</div>
 						</a>
 					</li>
 					<li>
-						<a routerLink="/surplusPage">
+						<a routerLink="/offer">
 							<img src="assets/img/user-add.png" alt="">
 							<div class="text">
 								Personnel Offer
@@ -26,7 +26,7 @@
 						</a>
 					</li>
 					<li>
-						<a routerLink="/lackPage">
+						<a routerLink="/demand">
 							<img src="assets/img/user-remove.png" alt="">
 							<div class="text">
 								Personnel Demand
@@ -46,7 +46,25 @@
 					<li>
 						<a>
 							<img src="assets/img/security-lock-white.png" alt="">
-							<div style="text-transform: capitalize;">{{ this.userRole }} role</div>
+							<div class="text" style="text-transform: capitalize;">{{ this.userRole }} role</div>
+						</a>
+					</li>
+					<li *ngIf="userRole !== 'admin' && !hasRequestedHigherRole">
+						<a (click)="openPopUp()">
+							<img src="assets/img/upgrade.png">
+							<div class="text">Request Role Upgrade</div>
+						</a>
+					</li>
+					<li *ngIf="userRole == 'admin' && requestsAvailable">
+						<a (click)="openRequestsDialog()">
+							<img src="assets/img/upgrade.png">
+							<div class="text">Requested Role Upgrade</div>
+						</a>
+					</li>
+					<li>
+						<a class="pointer" (click)="logOut()">
+							<img src="assets/img/logout.png">
+							<div class="text">Log Out</div>
 						</a>
 					</li>
 				</ul>

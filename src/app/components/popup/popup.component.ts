@@ -1,18 +1,15 @@
-import { Component, Directive, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { RequestTableService } from 'src/app/services/request-table.service';
-import { RequestTable } from 'src/app/models/RequestTable';
+import { PackageService } from 'src/app/services/package.service';
+import { Package } from 'src/app/models/Package';
 import { DataService } from 'src/app/services/data.service';
-import { AlertComponent } from 'src/app/alert/alert.component';
-import { AlertService } from 'src/app/alert/alert.service';
-import { LogInService } from 'src/app/services/LogInService';
-import { RequestTableDetails } from 'src/app/models/RequestTableDetails';
-import { RequestTableDetailsService } from 'src/app/services/request-table-details.service';
-import { forkJoin, timeout } from 'rxjs';
-import { FormcontrollsService } from 'src/app/services/formcontrolls.service';
-import { FormControll } from 'src/app/models/FormControll';
-import { Form } from '@angular/forms';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
+import { AlertService } from 'src/app/services/alert.service';
+import { PackageDetails } from 'src/app/models/PackageDetails';
+import { PackageDetailsService } from 'src/app/services/package-details.service';
+import { forkJoin } from 'rxjs';
+import { FormControlsService } from 'src/app/services/formcontrols.service';
+
 
 interface Department {
 	value?: string;
@@ -36,19 +33,17 @@ interface Fun {
 })
 export class PopupComponent {
 	@ViewChild('formDetails', { static: false }) formDetails: ElementRef | undefined;
-	@Input() surplusData?: RequestTable;
-	// @Output() dataUpdated = new EventEmitter<RequestTable[]>();
+	@Input() surplusData?: Package;
+
 
 	constructor(
-		private RequestTableService: RequestTableService,
-		private loginService: LogInService,
-		private router: Router,
+		private packageService: PackageService,
 		public dialogRef: MatDialogRef<PopupComponent, AlertComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private dataService: DataService,
 		private alertService: AlertService,
-		private RequestTableDetailsService: RequestTableDetailsService,
-		private formcontrolls: FormcontrollsService
+		private packageDetailsService: PackageDetailsService,
+		private formControls: FormControlsService
 	) {
 		this.tableType = this.dataService.tableType;
 		this.formularName = this.dataService.formName;
@@ -56,6 +51,15 @@ export class PopupComponent {
 		this.dataService.buttonType = 'submit';
 	}
 
+
+	employeeArray: { id: number, selectedShift: string, selectedFunction: string }[] = [];
+	departments: Department[] = [];
+
+	shifts: Shift[] = [];
+
+	funs: Fun[] = [];
+
+	formText: string = 'Submit';
 	response: boolean | undefined;
 	user?: string;
 	formularName: string | undefined;
@@ -67,7 +71,6 @@ export class PopupComponent {
 	selectedShift: string | undefined;
 	selectedFunction: string | undefined;
 	totalEmployees!: number;
-	employeeArray: { id: number, selectedShift: string, selectedFunction: string }[] = [];
 	nt_user: string | undefined;
 	// time pickers
 	startTime = { hour: 7, minute: 0 };
@@ -76,20 +79,25 @@ export class PopupComponent {
 	minuteStep = 15;
 	date2!: Date | null;
 
+	ngOnInit(): void {
+		this.getFormByType();
+		this.user = sessionStorage.getItem('name') ?? '';
+	}
+
 
 
 	handleShiftHours(shift: string | undefined) {
 		switch (shift) {
 			case 'Early':
 				this.startTime = { hour: 7, minute: 0 };
-				this.endTime = { hour: 15, minute: 0 };
+				this.endTime = { hour: 15, minute: 30 };
 				break;
 			case 'Late':
-				this.startTime = { hour: 15, minute: 0 };
-				this.endTime = { hour: 23, minute: 0 };
+				this.startTime = { hour: 15, minute: 30 };
+				this.endTime = { hour: 24, minute: 0 };
 				break;
 			case 'Night':
-				this.startTime = { hour: 23, minute: 0 };
+				this.startTime = { hour: 24, minute: 0 };
 				this.endTime = { hour: 7, minute: 0 };
 				break;
 			default:
@@ -102,7 +110,7 @@ export class PopupComponent {
 		return new Date(0, 0, 0, time.hour, time.minute);
 	}
 
-	// checks minimum time interval of 2 hours
+	//Function to check minimum time interval of 2 hours
 	isIntervalValid(): boolean {
 		const selectedStartTime = this.startTime.hour * 60 + this.startTime.minute;
 		const selectedEndTime = this.endTime.hour * 60 + this.endTime.minute;
@@ -127,13 +135,13 @@ export class PopupComponent {
 		let shiftHourInterval: string | undefined;
 		switch (shift) {
 			case 'Early':
-				shiftHourInterval = '07:00 - 15:00';
+				shiftHourInterval = '07:00 - 15:30';
 				break;
 			case 'Late':
-				shiftHourInterval = '15:00 - 23:00';
+				shiftHourInterval = '15:30 - 00:00';
 				break;
 			case 'Night':
-				shiftHourInterval = '23:00 - 07:00';
+				shiftHourInterval = '00:00 - 07:00';
 				break;
 			default:
 				shiftHourInterval = 'incorrect';
@@ -146,7 +154,7 @@ export class PopupComponent {
 		this.date2 = selectedDate;
 	}
 
-	handleBlur(event: Event): void {
+	handleBlur(event: Event): boolean {
 		const inputElement = event.target as HTMLInputElement;
 
 		if (inputElement.validity.rangeOverflow) {
@@ -155,17 +163,13 @@ export class PopupComponent {
 			inputElement.setCustomValidity('');
 		}
 
-		inputElement.reportValidity();
+		return inputElement.reportValidity();
 	}
 
 	onDateRangeSelected(dateRange: { startDate: Date; endDate: Date }) {
 		this.startDate = dateRange.startDate;
 		this.endDate = dateRange.endDate;
 
-	}
-	ngOnInit(): void {
-		this.getFormByType();
-		this.user = sessionStorage.getItem('username') ?? '';
 	}
 
 	daysDifference: number | undefined;
@@ -199,7 +203,6 @@ export class PopupComponent {
 			// After createSurplus() completes, call createDetails()
 			return this.createDetails();
 		}).catch((error) => {
-			// Handle errors, if any
 			console.error('Error:', error);
 		});
 	}
@@ -207,7 +210,7 @@ export class PopupComponent {
 	createSurplus(): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 
-			const surplusData: RequestTable = {
+			const surplusData: Package = {
 				// Initialize other properties if needed
 			};
 
@@ -258,10 +261,10 @@ export class PopupComponent {
 						startDateLocal.setHours(7, 0);
 						break;
 					case 'Late':
-						startDateLocal.setHours(15, 0);
+						startDateLocal.setHours(15, 30);
 						break;
 					case 'Night':
-						startDateLocal.setHours(23, 0);
+						startDateLocal.setHours(24, 0);
 						break;
 					default:
 						console.log("Error in setting shift hours");
@@ -276,10 +279,10 @@ export class PopupComponent {
 				);
 				switch (this.selectedShift) {
 					case 'Early':
-						endDateLocal.setHours(15, 0);
+						endDateLocal.setHours(15, 30);
 						break;
 					case 'Late':
-						endDateLocal.setHours(23, 0);
+						endDateLocal.setHours(24, 0);
 						break;
 					case 'Night':
 						endDateLocal.setHours(7, 0);
@@ -310,8 +313,8 @@ export class PopupComponent {
 
 
 
-			this.RequestTableService.addSurplus(surplusData).subscribe(
-				(surplusData: RequestTable[]) => {
+			this.packageService.createPackage(surplusData).subscribe(
+				(surplusData: Package[]) => {
 					//this.dataUpdated.emit(surplusData);
 					// reset the date variables
 					this.date2 = null;
@@ -330,13 +333,13 @@ export class PopupComponent {
 
 
 	private createDetails() {
-		const surplusDetailsData: RequestTableDetails = {
+		const surplusDetailsData: PackageDetails = {
 			// Define your surplusDetailsData here
 		};
 
-		this.RequestTableService.getRequestTableByLatestandUser(this.user).subscribe(
+		this.packageService.getDataByLatestAndUser(this.user).subscribe(
 			(response => {
-				surplusDetailsData.requestTableId = response[0].requestUID;
+				surplusDetailsData.packageId = response[0].packageUID;
 				surplusDetailsData.competences = response[0].competences;
 				surplusDetailsData.createdOn = response[0].createdOn;
 				surplusDetailsData.functions = response[0].functions;
@@ -348,7 +351,7 @@ export class PopupComponent {
 
 				const observables = [];
 				for (let i = 0; i < this.totalEmployees; i++) {
-					observables.push(this.RequestTableDetailsService.addSurplus(surplusDetailsData));
+					observables.push(this.packageDetailsService.createPackageDetails(surplusDetailsData));
 				}
 
 				// Wait for all observables to complete
@@ -356,7 +359,7 @@ export class PopupComponent {
 					(results) => {
 						//this.dataUpdated.emit(results); // emit all results
 						// reloadthe page
-						window.location.reload();
+						 window.location.reload();
 					},
 					(error) => {
 						// handle errors
@@ -367,18 +370,14 @@ export class PopupComponent {
 		);
 	}
 
-	private reloadPage() {
-
-		location.reload();
-	}
 
 	private getFormByType() {
-		this.formcontrolls.getRequestFormByType('Department').subscribe(
+		this.formControls.getRequestFormByType('Department').subscribe(
 			(response: any[]) => {
 				response.forEach((item: any) => {
 					this.departments.push({
 						value: item.value,
-						viewValue: item.value 
+						viewValue: item.value
 					});
 				});
 			},
@@ -387,12 +386,12 @@ export class PopupComponent {
 			}
 		);
 
-		this.formcontrolls.getRequestFormByType('Shift').subscribe(
+		this.formControls.getRequestFormByType('Shift').subscribe(
 			(response: any[]) => {
 				response.forEach((item: any) => {
 					this.shifts.push({
 						value: item.value,
-						viewValue: item.value 
+						viewValue: item.value
 					});
 				});
 			},
@@ -401,33 +400,21 @@ export class PopupComponent {
 			}
 		);
 
-		this.formcontrolls.getRequestFormByType('Functions').subscribe(
+		this.formControls.getRequestFormByType('Functions').subscribe(
 			(response: any[]) => {
 				response.forEach((item: any) => {
 					this.funs.push({
 						value: item.value,
-						viewValue: item.value 
+						viewValue: item.value
 					});
 				});
-				
+
 			},
 			(error: any) => {
 				console.error('Error fetching form data:', error);
 			}
 		);
 	}
-
-
-	formText: string = 'Submit';
-
-	departments: Department[] = [];
-
-	shifts: Shift[] = [];
-
-	funs: Fun[] = [];
-
-
-
 
 
 }
@@ -494,14 +481,14 @@ backFormPage() {
 
 // private createDetails1() {
 
-// 	const surplusDetailsData: RequestTableDetails = {
+// 	const surplusDetailsData: PackageDetails = {
 
 // 	};
 
-// 	this.RequestTableService.getRequestTableByLatestandUser(this.user).subscribe(
+// 	this.packageService.getDataByLatestAndUser(this.user).subscribe(
 // 		(response => {
 
-// 			surplusDetailsData.requestTableId = response[0].requestUID;
+// 			surplusDetailsData.packageID = response[0].packageUID;
 // 			surplusDetailsData.competences = response[0].competences;
 // 			surplusDetailsData.createdOn = response[0].createdOn;
 // 			surplusDetailsData.functions = response[0].functions;
@@ -512,8 +499,8 @@ backFormPage() {
 // 			surplusDetailsData.nT_User = this.user;
 
 // 			for (let i = 0; i < this.totalEmployees; i++) {
-// 				this.RequestTableDetailsService.addSurplus(surplusDetailsData).subscribe(
-// 					(surplusDetailsData: RequestTableDetails[]) => {
+// 				this.packageDetailsService.createPackageDetails(surplusDetailsData).subscribe(
+// 					(surplusDetailsData: PackageDetails[]) => {
 // 						//this.dataUpdated.emit(surplusDetailsData);
 
 // 					}
@@ -527,7 +514,7 @@ backFormPage() {
 /* createSurplus(): Promise<void> {
    return new Promise<void>((resolve, reject) => {
 
-	 const surplusData: RequestTable = {
+	 const surplusData: Package = {
 	   // Initialize other properties if needed
 	 };
 
@@ -552,8 +539,8 @@ backFormPage() {
 
 	 //Add data into SurplusTableDetails
 
-	 this.RequestTableService.addSurplus(surplusData).subscribe(
-	   (surplusData: RequestTable[]) => {
+	 this.packageService.createPackage(surplusData).subscribe(
+	   (surplusData: Package[]) => {
 		 this.dataUpdated.emit(surplusData);
 
 		 setTimeout(() => { this.reloadPage() }, 400);

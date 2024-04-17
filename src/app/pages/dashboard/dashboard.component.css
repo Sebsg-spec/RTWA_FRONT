@@ -1,0 +1,10 @@
+.lack-page {
+    text-align: center;
+    margin-left: 80px;
+    transition: margin-left 0.5s ease;
+}
+
+.open {
+    margin-left: 240px;
+    transition: margin-left 0.5s ease;
+}

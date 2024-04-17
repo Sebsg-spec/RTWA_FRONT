@@ -1,23 +1,23 @@
 example-container {
-    display: flex;
-    flex-direction: column;
-    max-height: 500px;
-    min-width: 300px;
-    margin-left: 240px;
-    margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+  margin-left: 240px;
+  margin-right: 10px;
 }
- 
-  .mat-table {
-    overflow: auto;
-    max-height: 500px;
-    margin-left: 240px;
-    margin-right: 10px;
-  }
- 
-  .mat-column-select {
-    overflow: visible;
-  }
- 
-  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-    background-color: #18837E;
-  }
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+  margin-left: 240px;
+  margin-right: 10px;
+}
+
+.mat-column-select {
+  overflow: visible;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #18837E;
+}

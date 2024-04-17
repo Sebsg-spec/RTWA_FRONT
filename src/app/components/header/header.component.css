@@ -4,14 +4,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 60px;
-    margin-top: 10px;
+    
 }
+
 .title {
-    color: var(--gray-50);
-    text-align: center;
-    font-family: 'Bosch Sans';
-    font-size: 24px;
+
+text-align: center;
 }
+
 .page-header .tef46-logo-container {
     display: flex;
     flex-flow: row nowrap;
@@ -19,53 +19,53 @@
     align-items: center;
     height: auto;
 }
+
 .page-header .tef46-logo-container img {
     max-height: 80px;
     width: auto;
 }
+
 .page-header .tef46-logo-container img:first-child {
     padding-right: 20px;
 }
+
 .page-header .tef46-logo-container img:last-child {
     padding: 5px 0;
 }
-.bosch-logo {
-    width: 200px;
-}
- 
-.bosch-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+
+
 hr {
     width: 80%;
     margin: 16px auto;
 }
- 
+
 .feedback-btn {
-   display: flex;
-   flex-flow: row nowrap;
-   justify-content: space-around;
-   align-items: center;
-   width: 250px;
-   margin-right: 50px;
-   
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 250px;
+    margin-right: 50px;
+
 }
+
 .icon-container {
     border-right: 1px solid black;
     text-align: center;
     width: 50px;
-    
+
 }
+
 .icon-container:last-child {
     border-right: none;
 }
+
 .icon-container a img {
     width: 40px;
     height: 40px;
- 
+
 }
+
 .feedback-btn-container {
     width: 100%;
     display: flex;
@@ -74,23 +74,25 @@ hr {
     align-items: center;
     padding-bottom: 10px;
 }
+
 .icon-container a img {
     transition: transform ease .3s;
 }
+
 .icon-container:hover a img {
     transform: scale(1.2);
     transition: transform ease .3s;
 }
- 
+
 /* Tooltip container */
 .icon-container {
     position: relative;
     display: inline-block;
     /* border-bottom: 1px dotted black; If you want dots under the hoverable text */
-  }
-  
-  /* Tooltip text */
-  .icon-container .tooltiptext {
+}
+
+/* Tooltip text */
+.icon-container .tooltiptext {
     visibility: hidden;
     width: 120px;
     bottom: 100%;
@@ -101,19 +103,21 @@ hr {
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
-   
+
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
-  }
-  
-  /* Show the tooltip text when you mouse over the tooltip container */
-  .icon-container:hover .tooltiptext {
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.icon-container:hover .tooltiptext {
     visibility: visible;
-  }
-  .tooltip .tooltiptext {
+}
+
+.tooltip .tooltiptext {
     width: 120px;
     bottom: 100%;
     left: 50%;
-    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
-  }
+    margin-left: -60px;
+    /* Use half of the width (120/2 = 60), to center the tooltip */
+}

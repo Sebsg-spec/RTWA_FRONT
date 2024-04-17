@@ -1,0 +1,85 @@
+.role-upgrade {
+    padding: 40px;
+    text-align: center;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.widen {
+    width: 1200px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+h3 {
+    color: black;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+button.submit-btn {
+    padding: 20px;
+  
+    font-weight: 600;
+    border-radius: 10px;
+    border: 3px solid #007BC0;
+    background-color: #007BC0;
+    color: white;
+    text-align: center;
+    margin: 20px 10px;
+}
+
+button.close-btn {
+    padding: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    border-bottom: 10px;
+    border: 3px solid #007BC0;
+    background-color: white;
+    color: #007BC0;
+    text-align: center;
+    margin: 20px 10px;
+
+}
+
+.submit-button {
+    padding: 20px;
+    font-weight: 600;
+    border-radius: 0px;
+    border: 0;
+    background-color: #007BC0;
+    color: white;
+    text-align: center;
+    margin: 20px 10px;
+}
+
+ #reason-container {
+     margin-top: 10px;
+ }
+
+ #reason-container label {
+     display: block;
+    margin-right: 10px;
+
+ }
+
+#reason-container input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+

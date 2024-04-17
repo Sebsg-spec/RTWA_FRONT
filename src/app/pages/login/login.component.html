@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form #myForm="ngForm" [formGroup]="registerForm">
+                <h1>Create Account</h1>
+                <input type="text" formControlName="fullname" name="username" [(ngModel)]="registerObj.fullname"
+                    placeholder="Name" required>
+                <div style="color: red;" *ngIf="registerForm.controls['fullname'].invalid 
+                && registerForm.controls['fullname'].touched">Name is required!</div>
+                <input type="email" formControlName="email" name="email" [(ngModel)]="registerObj.email "
+                    placeholder="Email" required>
+                <div 
+                    *ngIf="registerForm.controls['email'].invalid
+                    && registerForm.controls['email'].touched 
+                    && registerForm.controls['email'].touched">
+                    <div style="color: red;" *ngIf="registerForm.controls['email'].errors?.['required']">Email required</div>
+                    <div style="color: red;" *ngIf="registerForm.controls['email'].errors?.['email']">Invalid email.</div>
+                </div>
+
+                <input type="password" formControlName="password" placeholder="Password">
+                <div style="color: red;" *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched">Password is required!</div>
+                
+                <input type="password" formControlName="confirmPassword" placeholder="Confirm Password">
+                <div style="color: red;" *ngIf="registerForm.hasError('notSame') && registerForm.controls['confirmPassword'].touched">Passwords do not match!</div>
+
+
+                <button (click)="onRegister()" mat-button class="submit-btn" type="submit" id="submit-btn2"
+                    [disabled]="!myForm.form.valid"
+                    [ngStyle]="{'background-color': !myForm.form.valid ? '#808080' : '', 'border':!myForm.form.valid ? '1px solid #808080' : ''}">Sign
+                    Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form #myForm1="ngForm" [formGroup]="loginForm">
+                <h1>Sign In</h1>
+                <input type="email" formControlName="email" name="email" [(ngModel)]="loginObj.email"
+                    placeholder="Email" required>
+
+                <div style="color: red;"
+                    *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched && loginForm.controls['email'].touched">
+
+                    <div *ngIf="loginForm.controls['email'].errors?.['required']">Email required</div>
+
+                    <div *ngIf="loginForm.controls['email'].errors?.['email']">Invalid email.</div>
+                </div>
+
+                <input type="password" formControlName="password" name="password" [(ngModel)]="loginObj.password"
+                    placeholder="Password" required>
+
+                <div style="color: red;" *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">Password is
+                    required!</div>
+
+                <a href="#">→ Forget Your Password? ←</a>
+
+                <button (click)="onLogIn()" mat-button class="submit-btn" type="submit" id="submit-btn1"
+                    [disabled]="!myForm1.form.valid"
+                    [ngStyle]="{'background-color': !myForm1.form.valid ? '#808080' : '', 'border':!myForm1.form.valid ? '1px solid #808080' : ''}">Sign
+                    In</button>
+            </form>
+
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

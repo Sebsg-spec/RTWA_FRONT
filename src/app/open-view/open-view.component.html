@@ -1,11 +1,11 @@
-<sidemenu></sidemenu>
-<div class="open-view-page">
-    <top-bar></top-bar>
+<sidemenu (sideMenuState)="isSideBarClosed = $event"></sidemenu>
+<div class="open-view-page" [ngClass]="{'open': !isSideBarClosed}">
     <header></header>
     <h1>{{title}}</h1>
-    <button class = button-pos mat-raised-button color="primary" (click)="redirect()">Back </button>
-    <div class = position><open-view-table></open-view-table></div>
-    <div class = pos><button  mat-raised-button color="primary"  (click)="openAlertAndDelete()" >Accept Workers</button></div>
+    <button class=button-pos mat-raised-button color="primary" (click)="redirect()">Back </button>
+    <div class=position><open-view-table></open-view-table></div>
+    <div class=accept-btn><button mat-raised-button color="primary" (click)="openAlertAndDelete()">Accept Workers</button>
+    </div>
 </div>
- 
+
 <router-outlet></router-outlet>

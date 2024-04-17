@@ -1,6 +1,5 @@
 .sidebar-wrapper {
     position: fixed;
-    top: 10px;
     left: 0;
     width: 200px;
     height: 100%;
@@ -15,9 +14,9 @@
     transition: width 0.5s ease;
   }
    
-  .sidebar.close {
-    width: 60px;
-  }
+    .sidebar.close {
+      width: 60px;
+    }
    
   .sidebar.close .home-content {
     padding-left: 15px;
@@ -52,6 +51,10 @@
     cursor: pointer;
     transition: all 0.3s ease;
     display: block;
+  }
+
+  .pointer{
+      cursor: pointer;
   }
    
   .top-nav,
@@ -93,6 +96,16 @@
     margin-right: 10px;
     margin-left: 17px;
   }
+
+    .radio-buttons {
+      display: flex;
+      margin-left: auto;
+      color: #fff
+    }
+  
+    .radio-buttons label {
+      margin-right: 10px;
+    }
    
   .sidebar:not(.close) .top-nav li a,
   .sidebar:not(.close) .bottom-nav li a {

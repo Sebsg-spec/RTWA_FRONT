@@ -1,6 +1,5 @@
-import { Component, ViewChild, Input, ChangeDetectorRef, OnInit } from '@angular/core';
-import { RequestTableService } from 'src/app/services/request-table.service';
-import { RequestTable } from 'src/app/models/RequestTable';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
+import { Package } from 'src/app/models/Package';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
@@ -21,14 +20,11 @@ export class MaterialTableComponent implements OnInit {
 	}
 	dataSource = new MatTableDataSource<Element>([]);
 
-	constructor(private router: Router,
-		private cdr: ChangeDetectorRef,
-		private dataService: DataService,
-		private userService: UserRolesService) { }
+	@ViewChild(MatPaginator) paginator!: MatPaginator;
+	@ViewChild(MatSort) sort!: MatSort;
 
-
-	requestData: RequestTable[] = [];
-	surplusTableData: Element[] = [];
+	packageData: Package[] = [];
+	packageTableData: Element[] = [];
 
 	// stores the user's role, initially empty
 	userRole: string = '';
@@ -37,15 +33,16 @@ export class MaterialTableComponent implements OnInit {
 	// array of user roles
 	userRoles: string[] = [];
 
-
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
-	@ViewChild(MatSort) sort!: MatSort;
-
 	displayedColumns = ['position', 'function', 'department', 'startdate', 'enddate', 'shift', 'totaldays', 'totalemployees', 'actions'];
+
+
+	constructor(private router: Router,
+		private dataService: DataService,
+		private userService: UserRolesService) { }
 
 	ngOnInit(): void {
 
-		const accountId = this.userId; // set the logged-in user's account ID
+		const accountId = this.userId;
 
 		this.userService.getUserRoles(accountId!).subscribe(
 			roles => {
@@ -60,6 +57,7 @@ export class MaterialTableComponent implements OnInit {
 		);
 	}
 
+	//Initializing sorting based on startdate
 	ngAfterViewInit() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
@@ -70,16 +68,18 @@ export class MaterialTableComponent implements OnInit {
 
 	}
 
+	//Function to check if the current date is in the past so that we can show the warning sign
 	isPastDate(startDate: Date): boolean {
 		const currentDate = new Date();
 		return startDate < currentDate;
 	}
 
-	navigateToOpenView(requestUID: number, nt_user: string) {
+	//Function to open the details page for a specific package
+	navigateToOpenView(packageUID: number, nt_user: string) {
 
 		this.dataService.username = nt_user;
-		if (requestUID !== undefined && nt_user !== undefined) {
-			this.router.navigate(['/openView', requestUID, nt_user]);
+		if (packageUID !== undefined && nt_user !== undefined) {
+			this.router.navigate(['/openView', packageUID, nt_user]);
 		}
 		else {
 			console.error('Invalid parameters for navigation.');
@@ -88,6 +88,7 @@ export class MaterialTableComponent implements OnInit {
 
 };
 
+//Interface for displaying table data
 export interface Element {
 	position: number;
 	function: string;
@@ -98,7 +99,7 @@ export interface Element {
 	shift: number;
 	totaldays: number;
 	totalemployees: number;
-	requestUID: string;
+	packageUID: string;
 	nt_user: string;
 	[key: string]: any;
 }

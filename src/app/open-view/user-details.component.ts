@@ -15,23 +15,18 @@ export class UserDetailsComponent {
     private dialogRef: MatDialogRef<UserDetailsComponent>,
     private dataService: DataService
   ) {
-    // Receive user details data passed from the dialog open method
-    //this.userDetails = data.userDetails;
-    //this.username = this.dataService.username;
+
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.username = this.dataService.username
   }
 
   closeDialog(): void {
     // Close the dialog when the user clicks OK
     this.dialogRef.close();
-    setTimeout(() => window.location.reload() , 1500)
+    setTimeout(() => window.location.reload(), 1500)
   }
 
-  /*onUserChanged(user: string | undefined): void {
-    this.userDetails = user;
-    console.log('User value in parent component:', this.userDetails);
-  }*/
+
 }

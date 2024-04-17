@@ -1,0 +1,8 @@
+<sidemenu (sideMenuState)="isSideBarClosed = $event"></sidemenu>
+
+<body>
+    <div class="lack-page" [ngClass]="{'open': !isSideBarClosed}">
+        <header></header>
+    </div>
+    <router-outlet></router-outlet>
+</body>

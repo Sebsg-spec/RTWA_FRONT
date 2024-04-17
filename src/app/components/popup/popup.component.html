@@ -46,8 +46,7 @@
                         <mat-form-field>
                             <mat-label>Function</mat-label>
                             <mat-select name="function" [(ngModel)]="selectedFunction" required>
-                                <mat-option *ngFor="let fun of funs" 
-                                [value]="fun.value">{{ fun.viewValue }}
+                                <mat-option *ngFor="let fun of funs" [value]="fun.value">{{ fun.viewValue }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -65,7 +64,7 @@
                         <mat-form-field class="number-input">
                             <input matInput type="number" name="totalEmployees" id="totalEmployees1"
                                 [placeholder]="'No. of people'" min="1" max="100" required [(ngModel)]="totalEmployees"
-                                #name="ngModel">
+                                #name="ngModel" (blur)="handleBlur($event)">
                         </mat-form-field>
                     </div>
                 </div>
@@ -89,7 +88,7 @@
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                         <div class="hints">
-                            <p *ngIf="date2"> Selected start date: {{ date2 | date:'MMM dd yy' }}</p>
+                            <p *ngIf="date2"> Selected start date: {{ date2 | date:'MMM dd yyyy' }}</p>
                         </div>
                     </div>
 
@@ -108,9 +107,9 @@
                     </div>
                 </div>
 
-				<div class="form-general-info form-row warning-container">
-					<p class="warning" *ngIf="!isIntervalValid()">Required time interval of at least 2 hours</p>
-				</div>
+                <div class="form-general-info form-row warning-container">
+                    <p class="warning" *ngIf="!isIntervalValid()">Required time interval of at least 2 hours</p>
+                </div>
 
                 <div class="form-general-info form-row">
                     <div class="form-element">
@@ -134,7 +133,7 @@
                             <hr />
                             <div class="hints">
                                 <p *ngIf="selectedShift">
-									End Time: {{ convertTimeToDate(endTime) | date: 'HH:mm' }}
+                                    End Time: {{ convertTimeToDate(endTime) | date: 'HH:mm' }}
                                 </p>
 
                             </div>
@@ -182,14 +181,11 @@
                     </div>
                 </div>
 
-                <button
-					class="submit-btn"
-					type="submit"
-					id="submit-btn2"
-					[disabled]="!myForm.form.valid || !isIntervalValid()"
-					[ngStyle]="{'background-color': (!myForm.form.valid || !isIntervalValid()) ? '#808080' : '', 'border': ( !myForm.form.valid || !isIntervalValid()) ? '1px solid #808080' : ''}" >
-						Submit
-				</button>
+                <button class="submit-btn" type="submit" id="submit-btn2"
+                    [disabled]="!myForm.form.valid || !isIntervalValid()"
+                    [ngStyle]="{'background-color': (!myForm.form.valid || !isIntervalValid()) ? '#808080' : '', 'border': ( !myForm.form.valid || !isIntervalValid()) ? '1px solid #808080' : ''}">
+                    Submit
+                </button>
 
                 <button (click)="closeDialog()" class="close-btn" type="button">Cancel</button>
 

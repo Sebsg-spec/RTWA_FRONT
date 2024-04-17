@@ -1,20 +1,22 @@
-import { PopupService } from './components/popup/popup.service';
+import { PopupService } from './services/popup.service';
+import { AlertService } from './services/alert.service';
 // Component and pages imports
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SidemenuComponent } from './components/sidemenu/sidemenu.component';
-import { TopBarComponent } from './components/top-bar/top-bar.component';
-import { HomeComponent } from './home/home.component';
-import { LackPageComponent } from './lack-page/lack-page.component';
-import { TabelComponent } from './components/tabel/tabel.component';
+import { HomeComponent } from './pages/home/home.component';
+import { DemandPageComponent } from './pages/demand-page/demand-page.component';
 import { AppButtonComponent } from './components/app-button/app-button.component';
-import { SurplusPageComponent } from './surplus-page/surplus-page.component';
+import { OfferPageComponent } from './pages/offer-page/offer-page.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { DateRangePickerComponent } from './components/popup/date-range-picker/date-range-picker.component';
 import { MultipleSelectComponent } from './components/popup/multiple-select/multiple-select.component';
 import { OpenViewComponent } from './open-view/open-view.component';
 import { OpenViewTableComponent } from './open-view/open-view-table/open-view-table.component';
 import { MaterialTableComponent } from './components/material-table/material-table.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { UserDetailsComponent } from './open-view/user-details.component';
+
 
 // Material imports
 import { MatSortModule } from '@angular/material/sort';
@@ -38,7 +40,6 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 // PRIME NG
 import { TabViewModule } from 'primeng/tabview';
 import { Button, ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
 
 //Imports for the warning icon
 import { MatIconModule } from '@angular/material/icon';
@@ -52,47 +53,41 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AlertComponent } from './alert/alert.component';
-import { AlertService } from './alert/alert.service';
+
 import { authGuardGuard } from 'src/Guard/auth-guard.guard';
-import { UserDetailsComponent } from './open-view/user-details.component';
+
 import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaterialTimepickerModule, NgxTimepickerFieldComponent } from 'ngx-material-timepicker';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { MessageService } from 'primeng/api';
+import { LoginComponent } from './pages/login/login.component';
+import { EmailValidatorDirective } from './pages/login/email-validator.directive';
+import { RoleRequestComponent } from './components/role-request/role-request.component';
+import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
-    { path: 'lackPage', component: LackPageComponent, canActivate: [authGuardGuard] },
-    { path: 'surplusPage', component: SurplusPageComponent, canActivate: [authGuardGuard] },
-    { path: 'openView/:requestUID/:nt_user', component: OpenViewComponent, canActivate: [authGuardGuard] },
-    { path: 'register', component: RegisterComponent },
-    { path: 'login', component: LoginComponent },
-
-
-
+    { path: 'offer', component: OfferPageComponent, canActivate: [authGuardGuard] },
+    { path: 'demand', component: DemandPageComponent, canActivate: [authGuardGuard] },
+    { path: 'openView/:packageUID/:nt_user', component: OpenViewComponent, canActivate: [authGuardGuard] },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard] }
 ];
 @NgModule({
     providers: [
         PopupService,
-        AlertService,
-        MessageService
+        AlertService
     ],
     bootstrap: [AppComponent],
     declarations: [
         HomeComponent,
         HeaderComponent,
         SidemenuComponent,
-        TopBarComponent,
         AppComponent,
-        LackPageComponent,
-        TabelComponent,
+        DemandPageComponent,
         AppButtonComponent,
-        SurplusPageComponent,
+        OfferPageComponent,
         PopupComponent,
         MultipleSelectComponent,
         OpenViewComponent,
@@ -100,8 +95,11 @@ const routes: Routes = [
         MaterialTableComponent,
         AlertComponent,
         UserDetailsComponent,
-        RegisterComponent,
         LoginComponent,
+        EmailValidatorDirective,
+        RoleRequestComponent,
+        RequestDialogComponent,
+        DashboardComponent
     ],
     imports: [
         BrowserModule,
@@ -133,12 +131,7 @@ const routes: Routes = [
         NgbModule,
         NgxMaterialTimepickerModule,
         MatTooltipModule,
-        BrowserModule,
-        CardModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        HttpClientModule,
-        BrowserAnimationsModule
+        ReactiveFormsModule
     ],
     exports: [
         OpenViewTableComponent

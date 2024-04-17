@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormcontrollsService } from 'src/app/services/formcontrolls.service';
+import { FormControlsService } from 'src/app/services/formcontrols.service';
 
+//Interface for showing the data in the competences dropdown
 interface Options {
-	value?: string;
-	viewValue?: string;
+    value?: string;
+    viewValue?: string;
 }
 
 @Component({
@@ -13,47 +14,51 @@ interface Options {
 
 })
 export class MultipleSelectComponent {
-    @Output() selectedOptionsChange = new EventEmitter<{selected: string}>();
+    @Output() selectedOptionsChange = new EventEmitter<{ selected: string }>();
+
     selectedCompetences: string = '';
     selectedOptions: string[] = [];
-    selected : string = '';
-    constructor(private formcontrolls: FormcontrollsService){
+    selected: string = '';
+    options: Options[] = [];
+
+    constructor(private formControls: FormControlsService) {
 
     }
 
-
-ngOnInit(){
-    this.getFormByType();
-}
-   onCompetencesChanged(event: any){
-    this.selected = event.toString();
-    this.selectedCompetences = this.selected;
-    this.onOptionsSelected();
-}
-
-   onOptionsSelected() {
-    
-        this.selectedOptionsChange.emit({selected: this.selectedCompetences});
-};
+    //Initializing the competences from the database
+    ngOnInit() {
+        this.getFormByType();
+    }
 
 
-private getFormByType() {
-    this.formcontrolls.getRequestFormByType('Competences').subscribe(
-        (response: any[]) => {
-            response.forEach((item: any) => {
-                this.options.push({
-                    value: item.value,
-                    viewValue: item.value  
+    onCompetencesChanged(event: any) {
+        this.selected = event.toString();
+        this.selectedCompetences = this.selected;
+        this.onOptionsSelected();
+    }
+
+    //Emit the selected options
+    onOptionsSelected() {
+
+        this.selectedOptionsChange.emit({ selected: this.selectedCompetences });
+    };
+
+    //Get the data for the dropdown from the database
+    private getFormByType() {
+        this.formControls.getRequestFormByType('Competences').subscribe(
+            (response: any[]) => {
+                response.forEach((item: any) => {
+                    this.options.push({
+                        value: item.value,
+                        viewValue: item.value
+                    });
                 });
-            });
-        },
-        (error: any) => {
-            console.error('Error fetching form data:', error);
-        }
-        
-    );
-}
+            },
+            (error: any) => {
+                console.error('Error fetching form data:', error);
+            }
+        );
+    }
 
-options: Options[] = [];
 
 }

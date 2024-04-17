@@ -1,4 +1,4 @@
-<div class="example-container mat-elevation-z8">
+<div style="color: white;" class="example-container mat-elevation-z8">
 	<mat-table #table [dataSource]="dataSource" matSort>
 
 		<!-- Position Column -->
@@ -73,12 +73,9 @@
 			<mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
 			<mat-cell *matCellDef="let element">
 				<div class="button-container">
-					<button 
-						(click)="navigateToOpenView(element.requestUID, element.nt_user)"
-						[disabled]="userRole == 'viewer'"
-						[ngClass]="{ 'disabled': userRole == 'viewer' }"
-						[matTooltip]="userRole == 'viewer' ? 'You don\'t have the necessary access level' : ''"
-						>Details
+					<button (click)="navigateToOpenView(element.packageUID, element.nt_user)"
+						[disabled]="userRole == 'viewer'" [ngClass]="{ 'disabled': userRole == 'viewer' }"
+						[matTooltip]="userRole == 'viewer' ? 'You don\'t have the necessary access level' : ''">Details
 					</button>
 					<!--<button mat-button (click)="alertAndSubmit()">Accept All</button>-->
 				</div>

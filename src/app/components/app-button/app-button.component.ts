@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PopupService } from '../popup/popup.service';
-import { PopupComponent } from '../popup/popup.component';
+import { Component, Input, OnInit } from '@angular/core';
+import { PopupService } from '../../services/popup.service';
 import { UserRolesService } from 'src/app/services/user-roles.service';
 
 @Component({
@@ -19,12 +18,11 @@ export class AppButtonComponent implements OnInit {
 	// array of user roles
 	userRoles: string[] = [];
 
-	// initialize popup service and user service for use in this component
 	constructor(private popupService: PopupService, private userService: UserRolesService) { }
 
 	ngOnInit(): void {
 
-		const accountId = this.userId; // set the logged-in user's account ID
+		const accountId = this.userId;
 
 		this.userService.getUserRoles(accountId!).subscribe(
 			roles => {

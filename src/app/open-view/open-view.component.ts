@@ -1,10 +1,10 @@
-import { Component, ViewChild, Inject} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { OpenViewTableComponent } from './open-view-table/open-view-table.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RequestTableService } from '../services/request-table.service';
+import { PackageService } from '../services/package.service';
 import { DataService } from '../services/data.service';
-import { AlertService } from '../alert/alert.service';
- 
+import { AlertService } from '../services/alert.service';
+
 @Component({
   selector: 'app-open-view',
   templateUrl: './open-view.component.html',
@@ -12,73 +12,74 @@ import { AlertService } from '../alert/alert.service';
 })
 export class OpenViewComponent {
   @ViewChild(OpenViewTableComponent) childComponent: OpenViewTableComponent | undefined;
-  constructor(private route: ActivatedRoute, 
-              private requestTableService: RequestTableService, 
-              private dataService: DataService, 
-              private alertService: AlertService, 
-              private router: Router)
-              {
-                this.page = this.dataService.titleName;
+  constructor(private route: ActivatedRoute,
+    private packageService: PackageService,
+    private dataService: DataService,
+    private alertService: AlertService,
+    private router: Router) {
+    this.page = this.dataService.titleName;
+  };
 
-                 
-              };
+  isSideBarClosed: boolean = false;
 
-  
   user: string | undefined;
   page: string | undefined;
-  requestUID: string = '';
+  packageUID: string = '';
   nt_user: string = '';
   department: string = '';
   title: string = '';
 
-    ngOnInit(): void {
-      this.route.params.subscribe(params => {
-        this.requestUID = params['requestUID'];
-        this.nt_user = params['nt_user'];
-        //this.dataService.username = this.nt_user;
+  ngOnInit(): void {
 
-        this.requestTableService.getRequestTableByRequestUID(this.requestUID).subscribe(
-          (requestData: any) => {
-            this.department = requestData[0].department;
-            this.title = `List of employees ${this.page} in department ${this.department}`;
-          }
-        );
-      });
-    }
+    //Getting the packageUID and user from the params array
+    this.route.params.subscribe(params => {
+      this.packageUID = params['packageUID'];
+      this.nt_user = params['nt_user'];
 
-    redirect (){
-      if (this.page == 'offered'){
-        this.router.navigateByUrl('/surplusPage');
-      }
-      else{
-        this.router.navigateByUrl('/lackPage');
-      }
-    }
-
-    openAlertAndDelete(): void {
-      this.alertService.openAlert().then((userConfirmed: boolean) => {
-  
-        if (userConfirmed) {
-          //this.user = this.dataService.username;
-          return this.deleteAndEdit();
-          
-        } else {
-  
-          return Promise.resolve();
+      //Getting the department for the opened package
+      this.packageService.getDataByPackageUID(this.packageUID).subscribe(
+        (packageData: any) => {
+          this.department = packageData[0].department;
+          this.title = `List of employees ${this.page} in department ${this.department}`;
         }
-      }).then(() => {
-  
-      });
+      );
+    });
+  }
+
+  //Function to check if the current page is offer/demand and redirect accordingly
+  redirect() {
+    if (this.page == 'offered') {
+      this.router.navigateByUrl('/offer');
     }
-  
-    deleteAndEdit(): Promise<void> {
-      return new Promise<void>((resolve, reject) => {
-        if (this.childComponent) {
-          this.childComponent.deleteAndEditChecked();
-          this.redirect();
-        }
-      });
-    }  
-  
-  
+    else {
+      this.router.navigateByUrl('/demand');
+    }
+  }
+
+  openAlertAndDelete(): void {
+    this.alertService.openAlert().then((userConfirmed: boolean) => {
+
+      if (userConfirmed) {
+
+        return this.deleteAndEdit();
+
+      } else {
+
+        return Promise.resolve();
+      }
+    }).then(() => {
+
+    });
+  }
+
+  deleteAndEdit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (this.childComponent) {
+        this.childComponent.deleteAndEditChecked();
+        this.redirect();
+      }
+    });
+  }
+
+
 }
