@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/services/data.service';
 import { UserRolesService } from 'src/app/services/user-roles.service';
+import { FormControl } from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
+import { FormControlsService } from 'src/app/services/formcontrols.service';
+import { start } from '@popperjs/core';
 
 @Component({
 	selector: 'app-material-table',
@@ -17,6 +21,7 @@ export class MaterialTableComponent implements OnInit {
 	@Input() inputTitle: string = '';
 	@Input() set data(value: Element[]) {
 		this.dataSource.data = value;
+		this.packageTableData = this.dataSource.filteredData
 	}
 	dataSource = new MatTableDataSource<Element>([]);
 
@@ -33,15 +38,60 @@ export class MaterialTableComponent implements OnInit {
 	// array of user roles
 	userRoles: string[] = [];
 
+	pageTitle: string | undefined;
+
+	myControl = new FormControl('');
+
+	filteredOptions: Observable<Options[]> | undefined;
+
+	options: Options[] = [];
+
 	displayedColumns = ['position', 'function', 'department', 'startdate', 'enddate', 'shift', 'totaldays', 'totalemployees', 'actions'];
 
 
 	constructor(private router: Router,
 		private dataService: DataService,
-		private userService: UserRolesService) { }
+		private userService: UserRolesService,
+		private formControls: FormControlsService) { }
+
+	private _filter(value: string): Options[] {
+		const filterValue = value.toLowerCase();
+		return this.options.filter(option => option.viewValue.toLowerCase().includes(filterValue));
+	}
+
 
 	ngOnInit(): void {
+		this.formControls.getRequestFormByType('Competences').subscribe(
+			(response: any[]) => {
+				response.forEach((item: any) => {
+					this.options.push({
+						value: item.value,
+						viewValue: item.value
+					});
+				});
+				this.filteredOptions = this.myControl.valueChanges.pipe(
+					startWith(''),
+					map(value => {
+						if (!value) {
+							this.packageTableData = this.dataSource.filteredData;
+						}
+						return this._filter(value!);
+					})
+				);
+			},
+			(error: any) => {
+				console.error('Error fetching from data: ', error)
+			}
+		);
 
+
+
+		this.pageTitle = this.dataService.titleName
+		if (this.pageTitle == 'landing') {
+			this.displayedColumns = ['position', 'type', 'function', 'department', 'startdate', 'enddate', 'shift', 'totaldays', 'totalemployees', 'actions'];
+		} else {
+			this.displayedColumns = ['position', 'function', 'department', 'startdate', 'enddate', 'shift', 'totaldays', 'totalemployees', 'actions'];
+		}
 		const accountId = this.userId;
 
 		this.userService.getUserRoles(accountId!).subscribe(
@@ -66,6 +116,18 @@ export class MaterialTableComponent implements OnInit {
 			this.sort.direction = 'asc';
 		});
 
+	}
+
+	onOptionsSelected(selection: string) {
+		if (selection) {
+			const filteredSet = this.dataSource.filteredData.filter(option => option.competences?.includes(selection));
+			this.packageTableData = filteredSet;
+			return filteredSet;
+		}
+		else {
+			this.packageTableData = this.dataSource.filteredData;
+			return [];
+		}
 	}
 
 	//Function to check if the current date is in the past so that we can show the warning sign
@@ -102,4 +164,9 @@ export interface Element {
 	packageUID: string;
 	nt_user: string;
 	[key: string]: any;
+}
+
+interface Options {
+	value: string | undefined;
+	viewValue: string;
 }

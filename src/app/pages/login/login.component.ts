@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('username', respons.account_Id);
           sessionStorage.setItem('name', respons.fullName)
 
-          this.router.navigateByUrl('offer')
+          this.router.navigateByUrl('home')
 
         } else {
 

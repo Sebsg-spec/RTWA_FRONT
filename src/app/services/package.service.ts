@@ -12,6 +12,13 @@ import { PackageHistory } from '../models/PackageHistory';
 export class PackageService {
 	private url = "Package";
 	constructor(private http: HttpClient) { }
+	public getData(): Observable<Package[]> {
+		return this.http.get<Package[]>(`${environment.baseApiUrl}/${this.url}/GetData`);
+	}
+
+	public getDataByDate(startDate: string): Observable<Package[]> {
+		return this.http.get<Package[]>(`${environment.baseApiUrl}/${this.url}/GetDataByDate/${startDate}`);
+	}
 
 	public getDataByType(type: number): Observable<Package[]> {
 		return this.http.get<Package[]>(`${environment.baseApiUrl}/${this.url}/GetDataByType/${type}`);

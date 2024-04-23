@@ -1,21 +1,8 @@
+<sidemenu (sideMenuState)="isSideBarClosed = $event"></sidemenu>
 
-<div class="center-container">
-  <div *ngIf="loading; else loadedContent">
-    <div class="loading-container">
-      <p class="ceva">Loading...</p>
-    </div>
+<body>
+  <div class="lack-page" [ngClass]="{'open': !isSideBarClosed}">
+    <header></header>
   </div>
-
-  <ng-template #loadedContent>
-    <div class="content-container">
-      <p class="ceva">Welcome, {{ goodusername }}, you don't have access to this application</p>
-      <div class="image-container">
-        <img src="assets/img/security-lock.png" alt="&#x26A0;" class="warning-icon">
-        
-      </div>
-      <div class="image-container">
-        <a class="button" href=""><span style="text-decoration: none;">Request Access</span></a>
-      </div>
-    </div>
-  </ng-template>
-</div>
+  <router-outlet></router-outlet>
+</body>

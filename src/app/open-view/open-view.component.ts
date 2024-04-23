@@ -51,8 +51,10 @@ export class OpenViewComponent {
     if (this.page == 'offered') {
       this.router.navigateByUrl('/offer');
     }
-    else {
+    else  if(this.page == 'demand'){
       this.router.navigateByUrl('/demand');
+    }else if(this.page == 'home'){
+      this.router.navigateByUrl('/home')
     }
   }
 

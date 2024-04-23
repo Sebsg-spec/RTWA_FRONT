@@ -1,5 +1,8 @@
 import { PopupService } from './services/popup.service';
 import { AlertService } from './services/alert.service';
+import { authGuardGuard } from 'src/Guard/auth-guard.guard';
+
+
 // Component and pages imports
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -16,6 +19,11 @@ import { OpenViewTableComponent } from './open-view/open-view-table/open-view-ta
 import { MaterialTableComponent } from './components/material-table/material-table.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { UserDetailsComponent } from './open-view/user-details.component';
+import { RoleRequestComponent } from './components/role-request/role-request.component';
+import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LoginComponent } from './pages/login/login.component';
+import { EmailValidatorDirective } from './pages/login/email-validator.directive';
 
 
 // Material imports
@@ -36,6 +44,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // NGX Bootstrap
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // PRIME NG
 import { TabViewModule } from 'primeng/tabview';
@@ -45,26 +56,18 @@ import { Button, ButtonModule } from 'primeng/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-
 // @angular imports
+import { JsonPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { authGuardGuard } from 'src/Guard/auth-guard.guard';
-
-import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
-import { JsonPipe } from '@angular/common';
-import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxMaterialTimepickerModule, NgxTimepickerFieldComponent } from 'ngx-material-timepicker';
-import { LoginComponent } from './pages/login/login.component';
-import { EmailValidatorDirective } from './pages/login/email-validator.directive';
-import { RoleRequestComponent } from './components/role-request/role-request.component';
-import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { LegendComponent } from './components/legend/legend.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 const routes: Routes = [
@@ -72,7 +75,8 @@ const routes: Routes = [
     { path: 'offer', component: OfferPageComponent, canActivate: [authGuardGuard] },
     { path: 'demand', component: DemandPageComponent, canActivate: [authGuardGuard] },
     { path: 'openView/:packageUID/:nt_user', component: OpenViewComponent, canActivate: [authGuardGuard] },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard] }
+    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard] },
+    {path: 'home', component: LandingPageComponent, canActivate: [authGuardGuard] } 
 ];
 @NgModule({
     providers: [
@@ -99,17 +103,22 @@ const routes: Routes = [
         EmailValidatorDirective,
         RoleRequestComponent,
         RequestDialogComponent,
-        DashboardComponent
+        DashboardComponent,
+        LandingPageComponent,
+        LegendComponent,
+    
     ],
     imports: [
         BrowserModule,
         RouterModule.forRoot(routes),
         BrowserAnimationsModule,
         MatButtonModule,
+        MatCardModule,
         MatDialogModule,
         MatDatepickerModule,
         MatInputModule,
         MatFormFieldModule,
+    
         DateRangePickerComponent,
         MatSelectModule,
         MatOptionModule,
@@ -131,7 +140,8 @@ const routes: Routes = [
         NgbModule,
         NgxMaterialTimepickerModule,
         MatTooltipModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatAutocompleteModule
     ],
     exports: [
         OpenViewTableComponent
@@ -139,7 +149,6 @@ const routes: Routes = [
 })
 export class AppModule {
     constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-        // Register the warning icon
         this.matIconRegistry.addSvgIcon('warning', this.domSanitizer.bypassSecurityTrustResourceUrl(''));
     }
 }

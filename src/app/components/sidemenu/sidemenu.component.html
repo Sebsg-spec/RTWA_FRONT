@@ -9,6 +9,14 @@
 							<img class="close-menu" src="assets/img/menu.png" alt="" (click)="toggleSidebar()">
 						</div>
 					</li>
+					<li>
+						<a routerLink="/home">
+							<img src="assets/img/home.png" alt="">
+							<div class="text">
+								Home
+							</div>
+						</a>
+					</li>
 					<li *ngIf="userRole === 'admin'">
 						<a routerLink="/dashboard">
 							<img src="assets/img/business.png" alt="">

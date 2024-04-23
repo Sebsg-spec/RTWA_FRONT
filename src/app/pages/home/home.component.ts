@@ -11,60 +11,13 @@ import { LogInService } from '../../services/LogInService';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit {
-  username: string = "";
-  goodusername: string = "";
-  canAcces: string = "";
-  loading: boolean = true;
+export class HomeComponent  {
+  isSideBarClosed: boolean = false;
+  sendData: Element[] = [];
+  
+  constructor() { }
 
 
 
-  loginObj: any = {
-    Email: '',
-    FirstName: '',
-    Account_Id: '',
-    Result: false,
-    Message: ''
 
-  }
-  constructor(private router: Router, private loginService: LogInService, private http: HttpClient) { }
-
-  ngOnInit(): void {
-    this.loadUserData();
-
-  }
-
-  loadUserData() {
-    this.loginService.getUser().subscribe(response => {
-      this.username = response;
-
-      var parts = this.username.split("\\");
-
-      this.goodusername = parts[1];
-
-      this.loginObj.Account_Id = this.goodusername;
-
-      sessionStorage.setItem('username', this.goodusername);
-
-      this.loading = false;
-      this.onLogIn();
-    });
-  }
-
-  onLogIn() {
-    this.http.post(`${environment.baseApiUrl}/LogIn/`, this.loginObj)
-      .subscribe((respons: any) => {
-        if (respons.result) {
-          this.canAcces = "true";
-          sessionStorage.setItem('canAcces', this.canAcces)
-          this.router.navigateByUrl('surplusPage')
-
-        } else {
-          this.canAcces = "false"
-          sessionStorage.setItem('canAcces', this.canAcces)
-
-
-        }
-      })
-  }
 }

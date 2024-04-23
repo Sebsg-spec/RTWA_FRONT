@@ -20,6 +20,9 @@
     --purple-40: #9E2896;
     --blue-50: #007BC0;
     --yellow: #FFCF00;
+    --offer: var(--black);
+    --demand: #800080;
+    --both: #00629A;
 
     /* MATERIAL CHECKBOX COLOR VARIABLES */
     /* --mdc-checkbox-selected-icon-color: #009081 !important;
@@ -57,6 +60,7 @@ button:hover {
 html,
 body {
     height: 100%;
+    background-color: #ecf3f3;
 }
 
 body {
@@ -64,12 +68,3 @@ body {
 
 }
 
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-
-}

@@ -1,12 +1,26 @@
+<div class="material-table">
+	<form class="search-form">
+		<mat-form-field class="search">
+			<mat-label>Search by competences</mat-label>
+			<input type="text" placeholder="Pick a competence" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+			<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+				<mat-option *ngFor="let option of filteredOptions | async" [value]="option.viewValue" (onSelectionChange)="onOptionsSelected(option.viewValue)">{{option.viewValue}}</mat-option>
+			</mat-autocomplete>
+		</mat-form-field>
+	</form>
 <div style="color: white;" class="example-container mat-elevation-z8">
-	<mat-table #table [dataSource]="dataSource" matSort>
+	<mat-table #table [dataSource]="packageTableData" matSort>
 
 		<!-- Position Column -->
 		<ng-container matColumnDef="position">
 			<mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
 			<mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
 		</ng-container>
-
+		<!-- Type Column -->
+		<ng-container matColumnDef="type" *ngIf="pageTitle === 'landing'">
+			<mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+		</ng-container>
 		<!-- Function Column -->
 		<ng-container matColumnDef="function">
 			<mat-header-cell *matHeaderCellDef mat-sort-header> Function </mat-header-cell>
@@ -89,4 +103,5 @@
 
 	<mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
 
+</div>
 </div>
