@@ -17,7 +17,7 @@
 							</div>
 						</a>
 					</li>
-					<li *ngIf="userRole === 'admin'">
+					<li *ngIf="userRole === 'Admin'">
 						<a routerLink="/dashboard">
 							<img src="assets/img/business.png" alt="">
 							<div class="text">
@@ -57,13 +57,13 @@
 							<div class="text" style="text-transform: capitalize;">{{ this.userRole }} role</div>
 						</a>
 					</li>
-					<li *ngIf="userRole !== 'admin' && !hasRequestedHigherRole">
+					<li *ngIf="userRole !== 'Admin' && !hasRequestedHigherRole">
 						<a (click)="openPopUp()">
 							<img src="assets/img/upgrade.png">
 							<div class="text">Request Role Upgrade</div>
 						</a>
 					</li>
-					<li *ngIf="userRole == 'admin' && requestsAvailable">
+					<li *ngIf="userRole == 'Admin' && requestsAvailable">
 						<a (click)="openRequestsDialog()">
 							<img src="assets/img/upgrade.png">
 							<div class="text">Requested Role Upgrade</div>

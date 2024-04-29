@@ -374,6 +374,7 @@ export class PopupComponent {
 	private getFormByType() {
 		this.formControls.getRequestFormByType('Department').subscribe(
 			(response: any[]) => {
+				console.log(response)
 				response.forEach((item: any) => {
 					this.departments.push({
 						value: item.value,

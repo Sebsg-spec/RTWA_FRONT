@@ -34,8 +34,6 @@ export class SidemenuComponent implements OnInit {
 	userId: string | null = sessionStorage.getItem('username');
 	// array of user roles
 
-	userRoles: string[] = [];
-
 	requestsAvailable: boolean = false;
 
 	public hasRequestedHigherRole: boolean = false;
@@ -62,13 +60,17 @@ export class SidemenuComponent implements OnInit {
 			);
 		
 
-		const accountId = this.userId; // set the logged-in user's account ID
+		const accountId = this.userId; 
 
 		this.userService.getUserRoles(accountId!).subscribe(
 			roles => {
-				// populate the userRoles array with roles
-				this.userRoles = roles;
-				this.userRole = this.userRoles[0];
+				if (roles[0] === 'standard_user'){
+					this.userRole = 'Standard'
+				}else if(roles[0] === 'key_user'){
+					this.userRole = 'Key User'
+				}else if(roles[0] === 'admin'){
+					this.userRole = 'Admin'
+				}
 			},
 			error => {
 				console.error('Failed to fetch user roles:', error);

@@ -17,6 +17,7 @@
 	</div>
 
 	<app-legend></app-legend>
+	
 	<ng-container class="table" *ngIf="sendData && sendData.length > 0">
 			<h3 class="home-table-title">Packages for {{date | date: 'dd MMM yyyy'}}</h3>
 		<app-material-table [data]="sendData"></app-material-table>
