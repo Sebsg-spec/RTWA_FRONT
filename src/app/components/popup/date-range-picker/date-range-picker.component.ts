@@ -32,6 +32,13 @@ export class DateRangePickerComponent {
             this.endDate = selectedDate;
         }
 
+        //check if no date was selected
+        if(this.startDate && !this.endDate){
+            const newEndDate = new Date(this.startDate);
+            newEndDate.setDate(this.startDate.getDate());
+            this.endDate = newEndDate;
+        }
+
         this.calculateDateInterval();
         this.emitDateRange();
     }

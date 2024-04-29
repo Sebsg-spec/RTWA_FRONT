@@ -17,13 +17,13 @@ export class OpenViewComponent {
     private dataService: DataService,
     private alertService: AlertService,
     private router: Router) {
-    this.page = this.dataService.titleName;
+
   };
 
   isSideBarClosed: boolean = false;
 
   user: string | undefined;
-  page: string | undefined;
+  page: string | null = sessionStorage.getItem("pageType")
   packageUID: string = '';
   nt_user: string = '';
   department: string = '';
@@ -35,10 +35,17 @@ export class OpenViewComponent {
     this.route.params.subscribe(params => {
       this.packageUID = params['packageUID'];
       this.nt_user = params['nt_user'];
-
+      
       //Getting the department for the opened package
       this.packageService.getDataByPackageUID(this.packageUID).subscribe(
         (packageData: any) => {
+          if (sessionStorage.getItem("pageType") === "landing"){
+            if(packageData[0].type === 1){
+              this.page = "demand"
+            }else if(packageData[0].type === 2){
+              this.page = "offered"
+            }
+          }
           this.department = packageData[0].department;
           this.title = `List of employees ${this.page} in department ${this.department}`;
         }
@@ -48,12 +55,13 @@ export class OpenViewComponent {
 
   //Function to check if the current page is offer/demand and redirect accordingly
   redirect() {
-    if (this.page == 'offered') {
+    if (sessionStorage.getItem("pageType") == 'offered') {
       this.router.navigateByUrl('/offer');
     }
-    else  if(this.page == 'demand'){
+    else if (sessionStorage.getItem("pageType") == 'demand'){
       this.router.navigateByUrl('/demand');
-    }else if(this.page == 'home'){
+    }
+     else if (sessionStorage.getItem("pageType") == 'landing'){
       this.router.navigateByUrl('/home')
     }
   }
@@ -78,6 +86,7 @@ export class OpenViewComponent {
     return new Promise<void>((resolve, reject) => {
       if (this.childComponent) {
         this.childComponent.deleteAndEditChecked();
+
         this.redirect();
       }
     });

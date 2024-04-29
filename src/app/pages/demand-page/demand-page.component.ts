@@ -16,7 +16,8 @@ export class DemandPageComponent {
 	constructor(private packageService: PackageService, private LoginService: LogInService, private router: Router, private dataService: DataService,) {
 		this.dataService.tableType = 1;
 		this.dataService.formName = 'Request Employees';
-		this.dataService.titleName = 'demanded';
+		let page = 'demand';
+		sessionStorage.setItem('pageType', page)
 
 	}
 

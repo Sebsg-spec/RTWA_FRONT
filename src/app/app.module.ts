@@ -68,6 +68,15 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { LegendComponent } from './components/legend/legend.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MainComponent } from './components/main/main.component';
+import { TopWidgetsComponent } from './components/top-widgets/top-widgets.component';
+import { SalesByMonthComponent } from './components/sales-by-month/sales-by-month.component';
+import { SalesByCategoryComponent } from './components/sales-by-category/sales-by-category.component';
+import { LastFewTransComponent } from './components/last-few-trans/last-few-trans.component';
+import { TopThreeProductsComponent } from './components/top-three-products/top-three-products.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ChartModule } from 'angular-highcharts';
+
 
 
 const routes: Routes = [
@@ -76,7 +85,7 @@ const routes: Routes = [
     { path: 'demand', component: DemandPageComponent, canActivate: [authGuardGuard] },
     { path: 'openView/:packageUID/:nt_user', component: OpenViewComponent, canActivate: [authGuardGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard] },
-    {path: 'home', component: LandingPageComponent, canActivate: [authGuardGuard] } 
+    { path: 'home', component: LandingPageComponent, canActivate: [authGuardGuard] }
 ];
 @NgModule({
     providers: [
@@ -106,7 +115,13 @@ const routes: Routes = [
         DashboardComponent,
         LandingPageComponent,
         LegendComponent,
-    
+        MainComponent,
+        TopWidgetsComponent,
+        SalesByMonthComponent,
+        SalesByCategoryComponent,
+        LastFewTransComponent,
+        TopThreeProductsComponent,
+
     ],
     imports: [
         BrowserModule,
@@ -114,11 +129,11 @@ const routes: Routes = [
         BrowserAnimationsModule,
         MatButtonModule,
         MatCardModule,
+        ChartModule,
         MatDialogModule,
         MatDatepickerModule,
         MatInputModule,
         MatFormFieldModule,
-    
         DateRangePickerComponent,
         MatSelectModule,
         MatOptionModule,
@@ -141,7 +156,8 @@ const routes: Routes = [
         NgxMaterialTimepickerModule,
         MatTooltipModule,
         ReactiveFormsModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        FontAwesomeModule
     ],
     exports: [
         OpenViewTableComponent

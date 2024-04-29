@@ -18,7 +18,8 @@ export class OfferPageComponent {
 
 		this.dataService.formName = 'Insert Employee Surplus';
 
-		this.dataService.titleName = 'offered'
+		let page = 'offered';
+		sessionStorage.setItem('pageType', page)
 	}
 
 	isSideBarClosed: boolean = false;

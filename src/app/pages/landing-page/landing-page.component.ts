@@ -2,6 +2,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
+import { end } from '@popperjs/core';
 import { Package } from 'src/app/models/Package';
 import { DataService } from 'src/app/services/data.service';
 import { PackageService } from 'src/app/services/package.service';
@@ -24,11 +25,11 @@ export class LandingPageComponent implements OnInit {
 		const today = new Date();
 		this.selectedCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 		this.selectedNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-		this.dataService.titleName = this.page;
+		let page = 'landing';
+		sessionStorage.setItem('pageType', page)
 
 	}
 
-	page = "landing";
 
 	date: string | undefined;
 
@@ -56,47 +57,57 @@ export class LandingPageComponent implements OnInit {
 
 	calendar = false;
 
+
 	currentCalendar: 'current' | 'next' | null = null;
 
 
 
 	ngOnInit(): void {
 
-
-
-
 		setTimeout(() => {
 
 			this.calendar = true
 		}, 400);
+
 		this.packageService.getData().subscribe(
-
 			response => {
-
 				if (response && response.length > 0) {
 					this.packageData = response;
 
 					response.forEach(item => {
 						if (item.startDate && item.type !== undefined && item.type !== null) {
 							const date = new Date(item.startDate);
+							let endDate: Date;
+
+							if (item.endDate) {
+								endDate = new Date(item.endDate);
+							}
+							else {
+								endDate = new Date();
+							}
 							if (!isNaN(date.getTime())) {
 								const formattedDate = date.toISOString().slice(0, 10);
+								const endFormattedDate = endDate?.toISOString().slice(0, 10);
 
-								// Check if there's already an entry for this date
-								const existingEntryIndex = this.dateArr.findIndex(entry => entry.date.toISOString().slice(0, 10) === formattedDate);
-								if (existingEntryIndex !== -1) {
-									// If there's already an entry, combine types
-									if (this.dateArr[existingEntryIndex].type !== 3) {
-										this.dateArr[existingEntryIndex].type = 3;
+								let currentDate = date;
+								while (currentDate <= endDate) {
+									//Check if there's already an entry for this date
+									const existingEntryIndex = this.dateArr.findIndex(entry => entry.date.toISOString().slice(0, 10) === currentDate.toISOString().slice(0, 10));
+									if (existingEntryIndex !== -1) {
+										//if there's already an entry combine types
+										if (this.dateArr[existingEntryIndex].type !== 3) {
+											this.dateArr[existingEntryIndex].type = 3
+										}
+									} else {
+										//if there's no existing entry, add a new one
+										this.dateArr.push({
+											date: new Date(currentDate),
+											type: item.type,
+										});
 									}
-								} else {
-									// If there's no existing entry, add a new one
-									this.dateArr.push({
-										date: date,
-										type: item.type,
-									});
+									//move to the next date
+									currentDate.setDate(currentDate.getDate() + 1);
 								}
-
 							} else {
 								console.error('Invalid date format:', item.startDate);
 							}
@@ -147,20 +158,19 @@ export class LandingPageComponent implements OnInit {
 				}
 			}
 		}
-
 		return '';
 	};
 
 	onDateSelected(selectedDate: Date | null, calendarNumber: number) {
-		if(calendarNumber == 1 )
-		{
+		if (calendarNumber == 1) {
 			this.currentCalendar = 'current';
 		}
-		else
-		{
+		else {
 			this.currentCalendar = 'next';
 		}
+
 		this.date = selectedDate?.toString()
+
 		if (selectedDate) {
 			const formattedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
 			this.date = formattedDate
@@ -187,7 +197,6 @@ export class LandingPageComponent implements OnInit {
 						nt_user: request.nT_User || '',
 					});
 				});
-
 				// Update sendData with the new packageTableData
 				this.sendData = this.packageTableData;
 			});

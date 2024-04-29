@@ -1,8 +1,8 @@
 <mat-form-field>
     <mat-label>Select an interval</mat-label>
     <mat-date-range-input [rangePicker]="picker" required>
-        <input matStartDate (dateChange)="onDateChange($event, true)" placeholder="Start date" #startDateInput>
-        <input matEndDate (dateChange)="onDateChange($event, false)" placeholder="End date" #endDateInput>
+        <input matStartDate (dateChange)="onDateChange($event, true)" [class.selected] placeholder="Start date" #startDateInput>
+        <input matEndDate (dateChange)="onDateChange($event, false)" [class.selected] placeholder="End date" #endDateInput>
     </mat-date-range-input>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>

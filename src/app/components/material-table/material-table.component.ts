@@ -38,7 +38,7 @@ export class MaterialTableComponent implements OnInit {
 	// array of user roles
 	userRoles: string[] = [];
 
-	pageTitle: string | undefined;
+	pageTitle!: string | null;
 
 	myControl = new FormControl('');
 
@@ -86,7 +86,7 @@ export class MaterialTableComponent implements OnInit {
 
 
 
-		this.pageTitle = this.dataService.titleName
+		this.pageTitle = sessionStorage.getItem("pageType")
 		if (this.pageTitle == 'landing') {
 			this.displayedColumns = ['position', 'type', 'function', 'department', 'startdate', 'enddate', 'shift', 'totaldays', 'totalemployees', 'actions'];
 		} else {

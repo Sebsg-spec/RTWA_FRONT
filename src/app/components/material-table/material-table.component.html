@@ -19,7 +19,7 @@
 		<!-- Type Column -->
 		<ng-container matColumnDef="type" *ngIf="pageTitle === 'landing'">
 			<mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+			<mat-cell *matCellDef="let element"> {{element.type ==1 ? "Demand": "Offer"}} </mat-cell>
 		</ng-container>
 		<!-- Function Column -->
 		<ng-container matColumnDef="function">

@@ -19,4 +19,6 @@ export class DataService {
 
   public buttonType : string | undefined;
 
+  public pageType: string | undefined;
+
 }

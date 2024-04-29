@@ -1,0 +1,11 @@
+.mat-calendar-body-selected {
+    background-color: transparent !important;
+    border: none !important;
+    color: black !important;
+}
+
+.selected .mat-calendar-body-selected {
+    background-color: #00629A !important;
+    border: none !important;
+    color: white !important;
+}

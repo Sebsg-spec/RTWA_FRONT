@@ -123,6 +123,7 @@ button.submit-btn {
 }
 
 button.close-btn {
+    padding: 20px;
     font-weight: 600;
     border-radius: 10px;
     border-bottom: 10px;
