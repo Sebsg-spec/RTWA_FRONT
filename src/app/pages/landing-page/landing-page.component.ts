@@ -176,10 +176,8 @@ export class LandingPageComponent implements OnInit {
 			this.date = formattedDate
 			this.packageService.getDataByDate(formattedDate).subscribe((result: Package[]) => {
 				this.packageData = result;
-
-				// Clear the existing packageTableData
 				this.packageTableData = [];
-
+				
 				// Populate packageTableData with the new data
 				this.packageData.forEach((request, index) => {
 					this.packageTableData.push({

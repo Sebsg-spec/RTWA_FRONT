@@ -7,7 +7,7 @@
                 <div class="form-general-info form-row">
                     <div class="form-element">
                         <date-range-picker (daysDifferenceChange)="onDaysDifferenceChange($event)" class="selected" required
-                            (dateRangeSelected)="onDateRangeSelected($event)">
+                            (dateRangeSelected)="onDateRangeSelected($event)" class = 'selected' required>
                         </date-range-picker>
                         <div class="hints">
                             <p *ngIf="daysDifference">{{ daysDifference }} days selected</p>

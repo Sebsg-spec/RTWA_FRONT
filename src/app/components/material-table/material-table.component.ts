@@ -21,9 +21,10 @@ export class MaterialTableComponent implements OnInit {
 	@Input() inputTitle: string = '';
 	@Input() set data(value: Element[]) {
 		this.dataSource.data = value;
-		this.packageTableData = this.dataSource.filteredData
+		this.dataDisplayed.data = this.dataSource.filteredData
 	}
 	dataSource = new MatTableDataSource<Element>([]);
+	dataDisplayed = new MatTableDataSource<Element>([]);
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 	@ViewChild(MatSort) sort!: MatSort;
@@ -73,7 +74,7 @@ export class MaterialTableComponent implements OnInit {
 					startWith(''),
 					map(value => {
 						if (!value) {
-							this.packageTableData = this.dataSource.filteredData;
+							this.dataDisplayed.data = this.dataSource.filteredData;
 						}
 						return this._filter(value!);
 					})
@@ -109,23 +110,23 @@ export class MaterialTableComponent implements OnInit {
 
 	//Initializing sorting based on startdate
 	ngAfterViewInit() {
-		this.dataSource.paginator = this.paginator;
-		this.dataSource.sort = this.sort;
+		this.dataDisplayed.paginator = this.paginator;
+		this.dataDisplayed.sort = this.sort;
 		setTimeout(() => {
 			this.sort.active = 'startdate';
 			this.sort.direction = 'asc';
-		});
+		}, 1);
 
 	}
 
 	onOptionsSelected(selection: string) {
 		if (selection) {
 			const filteredSet = this.dataSource.filteredData.filter(option => option.competences?.includes(selection));
-			this.packageTableData = filteredSet;
+			this.dataDisplayed.data = filteredSet;
 			return filteredSet;
 		}
 		else {
-			this.packageTableData = this.dataSource.filteredData;
+			this.dataDisplayed.data = this.dataSource.filteredData;
 			return [];
 		}
 	}

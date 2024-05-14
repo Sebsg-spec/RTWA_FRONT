@@ -33,7 +33,7 @@
     gap: 20px;
     width: 50%;
     margin: 0 auto;
-	margin-bottom: -40px;
+    margin-bottom: -40px;
 }
 
 .calendar .mat-calendar {
@@ -41,6 +41,7 @@
     width: 300px;
 
 }
+
 .mat-calendar-content,
 .mat-calendar-header,
 .mat-calendar-table-header th,
@@ -72,23 +73,28 @@ button:hover {
 .home-table-title {
     padding-top: 20px;
     padding-bottom: 10px;
-	margin: 0 !important;
-	font-size: 1.3rem !important;
-	font-weight: 500 !important;
-	text-decoration: underline;
-	position: relative;
-	top: 50px;
+    margin: 0 !important;
+    font-size: 1.3rem !important;
+    font-weight: 500 !important;
+    text-decoration: underline;
+    position: relative;
+    top: 50px;
 }
 
-.mat-calendar-body-selected
-{
-background-color: transparent !important;
-border: none !important;
-color: black !important;
+.mat-calendar-body-selected {
+    background-color: transparent !important;
+    border: none !important;
+    color: black !important;
 }
 
-.selected .mat-calendar-body-selected{
+.selected .mat-calendar-body-selected {
     background-color: #00629A !important;
     border: none !important;
     color: white !important;
+}
+
+
+.mat-calendar-table-header-divider::after {
+    left: 0px !important;
+    right: 0px !important;
 }

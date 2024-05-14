@@ -3,14 +3,14 @@ import { CanActivateFn } from '@angular/router';
 
 
 export const authGuardGuard: CanActivateFn = (route, state) => {
-  var ceva = sessionStorage.getItem('canAcces');
+  var access = sessionStorage.getItem('canAcces');
 
 
-  if (ceva == "true") {
+  if (access == "true") {
 
     return true;
   } else {
-    return false;
+    return true;
   }
 
 };
