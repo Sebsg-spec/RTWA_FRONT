@@ -2,24 +2,29 @@
 <div class="landing-page" [ngClass]="{'open': !isSideMenuClosed}">
 	<header></header>
 	<h1>Home</h1>
+	
+	<ngb-datepicker #dp 
+	(dateSelect)="onDateSelection($event)" 
+	[dayTemplate]="customDayTemplate" [displayMonths]="2"
+	[navigation]="'select'" 
+	[showWeekNumbers]="false" 
+	[outsideDays]="'visible'">
+	</ngb-datepicker>
 
-	<div *ngIf="calendar" class="calendar">
-		<mat-card>
-			<mat-calendar [(selected)]="selectedCurrentMonth" [dateClass]="dateClass"
-				(selectedChange)="onDateSelected($event, 1)" [class.selected] = "currentCalendar === 'current'">
-			</mat-calendar>
-		</mat-card>
-		<mat-card>
-			<mat-calendar [(selected)]="selectedNextMonth" [dateClass]="dateClass"
-				(selectedChange)="onDateSelected($event, 2)" [startAt]="startAt" [class.selected] = "currentCalendar === 'next'">
-			</mat-calendar>
-		</mat-card>
-	</div>
+	<ng-template #customDayTemplate let-date="date" let-focused="focused">
+		<div class="custom-day" [class.focused]="focused" [class.highlighted]="isHighlighted(date)" [ngClass]="{
+         'custom-date-lack': getHighlightType(date) === 1,
+         'custom-date-surplus': getHighlightType(date) === 2,
+         'custom-date-both': getHighlightType(date) === 3
+       }">
+			{{ date.day }}
+		</div>
+	</ng-template>
 
 	<app-legend></app-legend>
-	
+
 	<ng-container class="table" *ngIf="sendData && sendData.length > 0">
-			<h3 class="home-table-title">Packages for {{date | date: 'dd MMM yyyy'}}</h3>
+		<h3 class="home-table-title">Packages for {{date | date: 'dd MMM yyyy'}}</h3>
 		<app-material-table [data]="sendData"></app-material-table>
 	</ng-container>
 

@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     email: '',
     password: ''
   }
-  
+
   registerForm: FormGroup;
 
   loginForm: FormGroup;
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
         if (respons.result) {
 
           this.canAcces = "true";
-          
+
           sessionStorage.setItem('canAcces', this.canAcces)
           sessionStorage.setItem('username', respons.account_Id);
           sessionStorage.setItem('name', respons.fullName)

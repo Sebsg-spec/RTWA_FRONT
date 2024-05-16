@@ -85,7 +85,8 @@ const routes: Routes = [
     { path: 'demand', component: DemandPageComponent, canActivate: [authGuardGuard] },
     { path: 'openView/:packageUID/:nt_user', component: OpenViewComponent, canActivate: [authGuardGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard] },
-    { path: 'home', component: LandingPageComponent, canActivate: [authGuardGuard] }
+    { path: 'home', component: LandingPageComponent, canActivate: [authGuardGuard] },
+    { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 @NgModule({
     providers: [

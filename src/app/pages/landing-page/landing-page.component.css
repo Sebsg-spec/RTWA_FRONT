@@ -27,48 +27,7 @@
     border-radius: 0;
 }
 
-.calendar {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    width: 50%;
-    margin: 0 auto;
-    margin-bottom: -40px;
-}
 
-.calendar .mat-calendar {
-    display: inline-block;
-    width: 300px;
-
-}
-
-.mat-calendar-content,
-.mat-calendar-header,
-.mat-calendar-table-header th,
-.mat-calendar-controls {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.mat-calendar-body-cell {
-    font-size: 20px;
-}
-
-.mat-calendar-body-cell {
-    width: 30px;
-    height: 30px;
-    padding: 5px;
-    cursor: default;
-}
-
-button:hover {
-    transform: none;
-}
-
-.mat-calendar-body-cell:hover {
-    background-color: transparent;
-    color: inherit;
-}
 
 .home-table-title {
     padding-top: 20px;
@@ -81,20 +40,35 @@ button:hover {
     top: 50px;
 }
 
-.mat-calendar-body-selected {
-    background-color: transparent !important;
-    border: none !important;
+::ng-deep ngb-datepicker .ngb-dp-weekday {
     color: black !important;
 }
 
-.selected .mat-calendar-body-selected {
-    background-color: #00629A !important;
-    border: none !important;
-    color: white !important;
+
+.custom-day {
+    padding: 0.25rem 0.5rem;
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
 }
 
-
-.mat-calendar-table-header-divider::after {
-    left: 0px !important;
-    right: 0px !important;
+.custom-day:hover {
+    border: 1px solid #007bff;
 }
+
+.custom-day.highlight {
+    background-color: #007bff;
+    color: white;
+}
+
+.custom-day.highlight:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+
+}
+.ngb-dp-months {
+        background: white !important;
+    }

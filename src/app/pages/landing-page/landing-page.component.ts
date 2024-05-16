@@ -2,222 +2,198 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
-import { end } from '@popperjs/core';
+import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Package } from 'src/app/models/Package';
 import { DataService } from 'src/app/services/data.service';
 import { PackageService } from 'src/app/services/package.service';
 
 interface DateItem {
-	date: Date;
-	type: number;
+  date: Date;
+  type: number;
 }
 
-
-
 @Component({
-	selector: 'app-landing-page',
-	templateUrl: './landing-page.component.html',
-	styleUrls: ['./landing-page.component.css'], encapsulation: ViewEncapsulation.None
+  selector: 'app-landing-page',
+  templateUrl: './landing-page.component.html',
+  styleUrls: ['./landing-page.component.css'],
 })
 
 export class LandingPageComponent implements OnInit {
-	constructor(private packageService: PackageService, private dataService: DataService) {
-		const today = new Date();
-		this.selectedCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-		this.selectedNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-		let page = 'landing';
-		sessionStorage.setItem('pageType', page)
+  constructor(private packageService: PackageService) {
+    sessionStorage.setItem('pageTitle', this.page);
+  }
 
-	}
+  displayMonths = 2;
 
+  navigation = 'arrows';
 
-	date: string | undefined;
+  showWeekNumbers = false;
 
-	endDate: string | undefined;
+  outsideDays = 'visible';
 
-	selectedCurrentMonth: Date | null;
+  page = "landing";
 
-	selectedNextMonth: Date | null;
+  dateArr: DateItem[] = [];
 
-	selected!: Date
+  dateSet: Set<string> = new Set();
 
-	dateArr: DateItem[] = [];
+  isSideMenuClosed: boolean = false;
 
-	dateSet: Set<string> = new Set();
+  startAt!: Date;
 
-	packageData: Package[] = [];
+  calendar = false;
 
-	packageTableData: any[] = [];
+  currentCalendar: 'current' | 'next' | null = null;
 
-	sendData: Element[] = [];
+  model: NgbDate | null = null;
 
-	isSideMenuClosed: boolean = false;
+  date: string | null = null;
 
-	startAt!: Date;
+  packageData: Package[] = [];
 
-	calendar = false;
+  packageTableData: any[] = [];
 
-
-	currentCalendar: 'current' | 'next' | null = null;
-
+  sendData: any[] = [];
+  
+  highlightedDates: { date: NgbDateStruct, type: number }[] = [];
 
 
-	ngOnInit(): void {
+  // Check if a date is highlighted
+  isHighlighted(date: NgbDateStruct): boolean {
+    return this.highlightedDates.some(highlightedDate =>
+      date.year === highlightedDate.date.year &&
+      date.month === highlightedDate.date.month &&
+      date.day === highlightedDate.date.day
+    );
+  }
 
-		setTimeout(() => {
+  getHighlightType(date: NgbDateStruct): number | null {
+    const highlight = this.highlightedDates.find(highlightedDate =>
+      date.year === highlightedDate.date.year &&
+      date.month === highlightedDate.date.month &&
+      date.day === highlightedDate.date.day
+    );
+    return highlight ? highlight.type : null;
+  }
 
-			this.calendar = true
-		}, 400);
 
-		this.packageService.getData().subscribe(
-			response => {
-				if (response && response.length > 0) {
-					this.packageData = response;
+  ngOnInit(): void {
+    this.packageService.getData().subscribe(
+      response => {
+        if (response && response.length > 0) {
+          this.packageData = response;
 
-					response.forEach(item => {
-						if (item.startDate && item.type !== undefined && item.type !== null) {
-							const date = new Date(item.startDate);
-							let endDate: Date;
+          response.forEach(item => {
+            if (item.startDate && item.type !== undefined && item.type !== null) {
+              const startDate = new Date(item.startDate);
+              let endDate: Date;
 
-							if (item.endDate) {
-								endDate = new Date(item.endDate);
-							}
-							else {
-								endDate = new Date();
-							}
-							if (!isNaN(date.getTime())) {
-								const formattedDate = date.toISOString().slice(0, 10);
-								const endFormattedDate = endDate?.toISOString().slice(0, 10);
+              if (item.endDate) {
+                endDate = new Date(item.endDate);
+              } else {
+                endDate = new Date();
+              }
 
-								let currentDate = date;
-								while (currentDate <= endDate) {
-									//Check if there's already an entry for this date
-									const existingEntryIndex = this.dateArr.findIndex(entry => entry.date.toISOString().slice(0, 10) === currentDate.toISOString().slice(0, 10));
-									if (existingEntryIndex !== -1) {
-										//if there's already an entry combine types
-										if (this.dateArr[existingEntryIndex].type !== 3) {
-											this.dateArr[existingEntryIndex].type = 3
-										}
-									} else {
-										//if there's no existing entry, add a new one
-										this.dateArr.push({
-											date: new Date(currentDate),
-											type: item.type,
-										});
-									}
-									//move to the next date
-									currentDate.setDate(currentDate.getDate() + 1);
-								}
-							} else {
-								console.error('Invalid date format:', item.startDate);
-							}
-						} else {
-							console.error('Missing startDate or type:', item);
-						}
-					});
-				} else {
-					console.error('Empty or invalid response:', response);
-				}
-			},
-			error => {
-				console.error('Error fetching data:', error);
-			}
-		);
+              if (!isNaN(startDate.getTime())) {
+                // Loop through all the dates between startDate and endDate
+                let currentDate = new Date(startDate);
+                while (currentDate <= endDate) {
+                  // Convert to NgbDateStruct
+                  const ngbDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
 
-		let today = new Date();
-		let month = today.getMonth() + 1;
-		let year = today.getUTCFullYear();
-		let day = today.getDay();
+                  // Check if there's already an entry for this date
+                  const existingEntryIndex = this.highlightedDates.findIndex(entry =>
+                    entry.date.year === ngbDate.year &&
+                    entry.date.month === ngbDate.month &&
+                    entry.date.day === ngbDate.day
+                  );
 
-		this.startAt = new Date(year, month, day);
-	}
+                  if (existingEntryIndex !== -1) {
+                    // If there's already an entry, combine types
+                    this.highlightedDates[existingEntryIndex].type = 3;
+                  } else {
+                    // If there's no existing entry, add a new one
+                    this.highlightedDates.push({ date: ngbDate, type: item.type });
+                  }
 
-	dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
-		if (view === 'month') {
-			// Extract year, month, and day from the cellDate
-			const cellYear = cellDate.getFullYear();
-			const cellMonth = cellDate.getMonth();
-			const cellDay = cellDate.getDate();
+                  // Move to the next date
+                  currentDate.setDate(currentDate.getDate() + 1);
+                }
+              } else {
+                console.error('Invalid date format:', item.startDate);
+              }
+            } else {
+              console.error('Missing startDate or type:', item);
+            }
+          });
+        } else {
+          console.error('Empty or invalid response:', response);
+        }
+      },
+      error => {
+        console.error('Error fetching data:', error);
+      }
+    );
 
-			// Check if any date in dateArr matches the cellDate
-			const dateObj = this.dateArr.find(item => {
-				const itemDate = new Date(item.date);
-				return itemDate.getFullYear() === cellYear &&
-					itemDate.getMonth() === cellMonth &&
-					itemDate.getDate() === cellDay;
-			});
+  }
 
-			// If a matching date is found, apply appropriate styling based on type
-			if (dateObj) {
-				if (dateObj.type === 1) {
-					return 'custom-date-lack';
-				} else if (dateObj.type === 2) {
-					return 'custom-date-surplus';
-				} else if (dateObj.type === 3) {
-					return 'custom-date-both';
-				}
-			}
-		}
-		return '';
-	};
 
-	onDateSelected(selectedDate: Date | null, calendarNumber: number) {
-		if (calendarNumber == 1) {
-			this.currentCalendar = 'current';
-		}
-		else {
-			this.currentCalendar = 'next';
-		}
 
-		this.date = selectedDate?.toString()
+  onDateSelection(date: NgbDate) {
+    const selectedDate = new Date(date.year, date.month - 1, date.day);
 
-		if (selectedDate) {
-			const formattedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
-			this.date = formattedDate
-			this.packageService.getDataByDate(formattedDate).subscribe((result: Package[]) => {
-				this.packageData = result;
-				this.packageTableData = [];
-				
-				// Populate packageTableData with the new data
-				this.packageData.forEach((request, index) => {
-					this.packageTableData.push({
-						position: index + 1,
-						type: request.type || '',
-						function: request.functions || '',
-						competences: request.competences || '',
-						department: request.department || '',
-						startdate: request.startDate ? new Date(request.startDate) : '',
-						enddate: request.endDate ? new Date(request.endDate) : '',
-						shift: request.shift || '',
-						totaldays: request.totalDays,
-						totalemployees: request.totalEmployees || 0,
-						packageUID: request.packageUID || '',
-						nt_user: request.nT_User || '',
-					});
-				});
-				// Update sendData with the new packageTableData
-				this.sendData = this.packageTableData;
-			});
-		}
-	}
+    this.date = selectedDate?.toString();
+    if (selectedDate) {
+      const formattedDate = formatDate(selectedDate, 'yyyy-MM-dd', 'en-US');
+      this.date = formattedDate;
 
-	updateData(packageData: Package[]) {
-		this.packageData = packageData;
-	}
+      this.packageService.getDataByDate(formattedDate).subscribe((result: Package[]) => {
+        this.packageData = result;
+
+        // Clear the existing packageTableData
+        this.packageTableData = [];
+
+        // Populate packageTableData with the new data
+        this.packageData.forEach((request, index) => {
+          this.packageTableData.push({
+            position: index + 1,
+            type: request.type || '',
+            function: request.functions || '',
+            competences: request.competences || '',
+            department: request.department || '',
+            startdate: request.startDate ? new Date(request.startDate) : '',
+            enddate: request.endDate ? new Date(request.endDate) : '',
+            shift: request.shift || '',
+            totaldays: request.totalDays,
+            totalemployees: request.totalEmployees || 0,
+            packageUID: request.packageUID || '',
+            nt_user: request.nT_User || '',
+          });
+        });
+
+        // Update sendData with the new packageTableData
+        this.sendData = this.packageTableData;
+      });
+    }
+  }
+
+  updateData(packageData: Package[]) {
+    this.packageData = packageData;
+  }
 
 }
 
 export interface Element {
-	position: number;
-	function: string;
-	competences: string;
-	department: string;
-	startdate: Date;
-	enddate: Date;
-	shift: number;
-	totaldays: number;
-	totalemployees: number;
-	packageUID: string;
-	nt_user: string;
-	type: number;
+  position: number;
+  function: string;
+  competences: string;
+  department: string;
+  startdate: Date;
+  enddate: Date;
+  shift: number;
+  totaldays: number;
+  totalemployees: number;
+  packageUID: string;
+  nt_user: string;
+  type: number;
 }
