@@ -47,7 +47,7 @@ export class LandingPageComponent implements OnInit {
 
   model: NgbDate | null = null;
 
-  date: string | null = null;
+  date!: string ;
 
   packageData: Package[] = [];
 

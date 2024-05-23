@@ -1,107 +1,109 @@
 <div class="material-table">
 	<form class="search-form">
 		<mat-form-field class="search">
-			<mat-label>Search by competences</mat-label>
-			<input type="text" placeholder="Pick a competence" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+			<mat-label>{{"search by competences" | translate}}</mat-label>
+			<input type="text" placeholder="{{ 'pick competences' | translate }}"   aria-label="Number" matInput [formControl]="myControl"
+				[matAutocomplete]="auto">
 			<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-				<mat-option *ngFor="let option of filteredOptions | async" [value]="option.viewValue" (onSelectionChange)="onOptionsSelected(option.viewValue)">{{option.viewValue}}</mat-option>
+				<mat-option *ngFor="let option of filteredOptions | async" [value]="option.viewValue"
+					(onSelectionChange)="onOptionsSelected(option.viewValue)">{{option.viewValue}}</mat-option>
 			</mat-autocomplete>
 		</mat-form-field>
 	</form>
-<div style="color: white;" class="example-container mat-elevation-z8">
-	<mat-table #table [dataSource]="dataDisplayed" matSort>
+	<div style="color: white;" class="example-container mat-elevation-z8">
+		<mat-table #table [dataSource]="dataDisplayed" matSort>
 
-		<!-- Position Column -->
-		<ng-container matColumnDef="position">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-		</ng-container>
-		<!-- Type Column -->
-		<ng-container matColumnDef="type" *ngIf="pageTitle === 'landing'">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.type ==1 ? "Demand": "Offer"}} </mat-cell>
-		</ng-container>
-		<!-- Function Column -->
-		<ng-container matColumnDef="function">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> Function </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.function}} </mat-cell>
-		</ng-container>
-		<!-- Department Column -->
-		<ng-container matColumnDef="department">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> Department </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
-		</ng-container>
+			<!-- Position Column -->
+			<ng-container matColumnDef="position">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"No." | translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+			</ng-container>
+			<!-- Type Column -->
+			<ng-container matColumnDef="type" *ngIf="pageTitle == 'landing'">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"Type" | translate}}</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.type == 1 ? ("Demand" | translate) : ("Offer" |
+					translate)}} </mat-cell>
+			</ng-container>
+			<!-- Function Column -->
+			<ng-container matColumnDef="function">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"function" | translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.function}} </mat-cell>
+			</ng-container>
+			<!-- Department Column -->
+			<ng-container matColumnDef="department">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"department" | translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+			</ng-container>
 
-		<!-- start Date Column -->
-		<ng-container matColumnDef="startdate">
-			<mat-header-cell *matHeaderCellDef mat-sort-header matSortHeaderDefault> Start Date </mat-header-cell>
+			<!-- start Date Column -->
+			<ng-container matColumnDef="startdate">
+				<mat-header-cell *matHeaderCellDef mat-sort-header matSortHeaderDefault> {{"start date"|translate}}</mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<ng-container *ngIf="isPastDate(element.startdate); else currentDate">
+						{{element.startdate | date: 'dd MMM yyyy - HH:mm'}}
+						<img src="assets/img/26a0.png" alt=&#x26A0; class="warning-icon"
+							matTooltip="Warning: Start date in the past">
+					</ng-container>
+					<ng-template #currentDate>
+						{{element.startdate | date: 'dd MMM yyyy - HH:mm'}}
+					</ng-template>
+				</mat-cell>
+			</ng-container>
 
-			<mat-cell *matCellDef="let element">
-				<ng-container *ngIf="isPastDate(element.startdate); else currentDate">
-					{{element.startdate | date: 'dd MMM yyyy - HH:mm'}}
-					<img src="assets/img/26a0.png" alt=&#x26A0; class="warning-icon"
-						matTooltip="Warning: Start date in the past">
-				</ng-container>
-				<ng-template #currentDate>
-					{{element.startdate | date: 'dd MMM yyyy - HH:mm'}}
-				</ng-template>
-			</mat-cell>
-		</ng-container>
+			<!-- End Date Column -->
+			<ng-container matColumnDef="enddate">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"end date"| translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.enddate | date: 'dd MMM yyyy - HH:mm'}} </mat-cell>
+			</ng-container>
 
-		<!-- End Date Column -->
-		<ng-container matColumnDef="enddate">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> End Date </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.enddate | date: 'dd MMM yyyy - HH:mm'}} </mat-cell>
-		</ng-container>
+			<ng-container matColumnDef="shift">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"shift" | translate}}</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.shift | translate}} </mat-cell>
+			</ng-container>
 
-		<ng-container matColumnDef="shift">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> Shift </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.shift }} </mat-cell>
-		</ng-container>
+			<!-- Total Days Column -->
+			<ng-container matColumnDef="totaldays">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"total days" | translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{ element.totaldays !== 0 ? element.totaldays : 'partial' }}
+				</mat-cell>
+			</ng-container>
 
-		<!-- Total Days Column -->
-		<ng-container matColumnDef="totaldays">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> Total Days </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{ element.totaldays !== 0 ? element.totaldays : 'partial' }}
-			</mat-cell>
-		</ng-container>
+			<!-- Total Employees Column -->
+			<ng-container matColumnDef="totalemployees">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"no. of people" | translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.totalemployees}} </mat-cell>
+			</ng-container>
 
-		<!-- Total Employees Column -->
-		<ng-container matColumnDef="totalemployees">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> No of people </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.totalemployees}} </mat-cell>
-		</ng-container>
+			<!-- User Column -->
+			<ng-container matColumnDef="user">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> "{{"no. of people" | translate}}" </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.nt_user}} </mat-cell>
+			</ng-container>
 
-		<!-- User Column -->
-		<ng-container matColumnDef="user">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> No of people </mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.nt_user}} </mat-cell>
-		</ng-container>
+			<ng-container matColumnDef="select">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"actions" | translate}}</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.Actions}} </mat-cell>
+			</ng-container>
 
-		<ng-container matColumnDef="select">
-			<mat-header-cell *matHeaderCellDef mat-sort-header> Actions</mat-header-cell>
-			<mat-cell *matCellDef="let element"> {{element.Actions}} </mat-cell>
-		</ng-container>
-
-		<ng-container matColumnDef="actions">
-			<mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-			<mat-cell *matCellDef="let element">
-				<div class="button-container">
-					<button (click)="navigateToOpenView(element.packageUID, element.nt_user)"
-						[disabled]="userRole == 'viewer'" [ngClass]="{ 'disabled': userRole == 'viewer' }"
-						[matTooltip]="userRole == 'viewer' ? 'You don\'t have the necessary access level' : ''">Details
-					</button>
-					<!--<button mat-button (click)="alertAndSubmit()">Accept All</button>-->
-				</div>
-			</mat-cell>
-		</ng-container>
+			<ng-container matColumnDef="actions">
+				<mat-header-cell *matHeaderCellDef> {{"actions" | translate}} </mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<div class="button-container">
+						<button (click)="navigateToOpenView(element.packageUID, element.nt_user)"
+							[disabled]="userRole == 'viewer'" [ngClass]="{ 'disabled': userRole == 'viewer' }"
+							[matTooltip]="userRole == 'viewer' ? 'You don\'t have the necessary access level' : ''">{{"details" | translate}}
+						</button>
+						<!--<button mat-button (click)="alertAndSubmit()">Accept All</button>-->
+					</div>
+				</mat-cell>
+			</ng-container>
 
 
-		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-	</mat-table>
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
 
-	<mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+		<mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
 
-</div>
+	</div>
 </div>

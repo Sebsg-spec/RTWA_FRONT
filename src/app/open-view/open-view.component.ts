@@ -47,7 +47,7 @@ export class OpenViewComponent {
             }
           }
           this.department = packageData[0].department;
-          this.title = `List of employees ${this.page} in department ${this.department}`;
+          this.title = `list of employees ${this.page} in department`;
         }
       );
     });

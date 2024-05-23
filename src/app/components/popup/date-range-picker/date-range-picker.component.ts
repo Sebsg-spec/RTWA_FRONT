@@ -1,15 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { OfferPageComponent } from 'src/app/pages/offer-page/offer-page.component';
 
 @Component({
     selector: 'date-range-picker',
     templateUrl: './date-range-picker.component.html',
     styleUrls: ['./date-range-picker.component.css'],
-    standalone: true,
-    imports: [MatFormFieldModule, MatDatepickerModule, MatNativeDateModule],
+    providers: [
+        HttpClient
+    ]
 })
 export class DateRangePickerComponent {
     @Input() typeget?: OfferPageComponent;

@@ -62,7 +62,7 @@ export class PopupComponent {
 	formText: string = 'Submit';
 	response: boolean | undefined;
 	user?: string;
-	formularName: string | undefined;
+	formularName!: string ;
 	tableType: number | undefined;
 	startDate: Date | undefined;
 	endDate: Date | undefined;

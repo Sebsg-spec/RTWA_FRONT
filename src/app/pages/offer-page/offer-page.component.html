@@ -2,7 +2,7 @@
 <div class="surplus-page" [ngClass]="{'open': !isSideBarClosed}">
 
     <header></header>
-    <h1>Personnel Offer</h1>
+    <h1>{{"personnel offer" | translate}}</h1>
     <app-material-table [data]="sendData"></app-material-table>
     <app-button [buttonText]="surplusButtonValue"></app-button>
 </div>

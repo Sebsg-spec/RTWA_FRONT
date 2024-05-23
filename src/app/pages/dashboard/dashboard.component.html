@@ -1,11 +1,13 @@
 <sidemenu (sideMenuState)="isSideBarClosed = $event"></sidemenu>
 
+
 <body>
     <div class="lack-page" [ngClass]="{'open': !isSideBarClosed}">
+        <header></header>
 
 
 
-        <h1>Admin Dashboard</h1>
+        <h1>{{"admin dashboard" |translate}}</h1>
 
         <div class="top-section">
             <app-top-widgets></app-top-widgets>

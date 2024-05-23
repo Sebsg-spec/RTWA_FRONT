@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -21,6 +22,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class LoginComponent implements OnInit {
+  lang = "";
+
+
 
   loginObj: any = {
     Email: '',
@@ -48,7 +52,7 @@ export class LoginComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private translateService: TranslateService) {
 
     this.registerForm = this.formBuilder.group({
       fullname: ['', Validators.required],
@@ -71,6 +75,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.lang = localStorage.getItem('lang') || 'ro'
+
     const container: HTMLElement | null = document.getElementById('container');
     const registerBtn: HTMLElement | null = document.getElementById('register');
     const loginBtn: HTMLElement | null = document.getElementById('login');
@@ -86,6 +92,16 @@ export class LoginComponent implements OnInit {
     } else {
       console.error('One or more elements not found.');
     }
+
+  }
+
+  changeLang(lang: any) {
+    const selectedLanguage = lang.target.value;
+
+    localStorage.setItem('lang', selectedLanguage);
+
+    this.translateService.use(selectedLanguage);
+
 
   }
 

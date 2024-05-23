@@ -25,7 +25,7 @@ export class SidemenuComponent implements OnInit {
 
 	@Output() sideMenuState = new EventEmitter<boolean>();
 
-	user?: string;
+	user!: string;
 	isSidebarClosed = false;
 
 	// stores the user's role, initially empty
@@ -65,7 +65,7 @@ export class SidemenuComponent implements OnInit {
 		this.userService.getUserRoles(accountId!).subscribe(
 			roles => {
 				if (roles[0] === 'standard_user'){
-					this.userRole = 'Standard'
+					this.userRole = 'Standard' 
 				}else if(roles[0] === 'key_user'){
 					this.userRole = 'Key User'
 				}else if(roles[0] === 'admin'){

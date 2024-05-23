@@ -13,7 +13,7 @@
 						<a routerLink="/home">
 							<img src="assets/img/home.png" alt="">
 							<div class="text">
-								Home
+								{{'home'| translate}}
 							</div>
 						</a>
 					</li>
@@ -21,7 +21,7 @@
 						<a routerLink="/dashboard">
 							<img src="assets/img/business.png" alt="">
 							<div class="text">
-								Dashboard
+							{{"dashboard"| translate}}
 							</div>
 						</a>
 					</li>
@@ -29,15 +29,15 @@
 						<a routerLink="/offer">
 							<img src="assets/img/user-add.png" alt="">
 							<div class="text">
-								Personnel Offer
+							{{"personnel offer" | translate}}
 							</div>
 						</a>
 					</li>
 					<li>
-						<a routerLink="/demand">
+					<a routerLink="/demand">
 							<img src="assets/img/user-remove.png" alt="">
 							<div class="text">
-								Personnel Demand
+							{{"personnel demand" | translate}}
 							</div>
 						</a>
 					</li>
@@ -54,25 +54,25 @@
 					<li>
 						<a>
 							<img src="assets/img/security-lock-white.png" alt="">
-							<div class="text" style="text-transform: capitalize;">{{ this.userRole }} role</div>
+							<div class="text" style="text-transform: capitalize;">{{ this.userRole | translate }}</div>
 						</a>
 					</li>
 					<li *ngIf="userRole !== 'Admin' && !hasRequestedHigherRole">
 						<a (click)="openPopUp()">
 							<img src="assets/img/upgrade.png">
-							<div class="text">Request Role Upgrade</div>
+							<div class="text">{{"request role upgrade" | translate}}</div>
 						</a>
 					</li>
 					<li *ngIf="userRole == 'Admin' && requestsAvailable">
 						<a (click)="openRequestsDialog()">
 							<img src="assets/img/upgrade.png">
-							<div class="text">Requested Role Upgrade</div>
+							<div class="text">{{"requested role upgrade" | translate}}</div>
 						</a>
 					</li>
 					<li>
 						<a class="pointer" (click)="logOut()">
 							<img src="assets/img/logout.png">
-							<div class="text">Log Out</div>
+							<div class="text">{{"log out" | translate}}</div>
 						</a>
 					</li>
 				</ul>

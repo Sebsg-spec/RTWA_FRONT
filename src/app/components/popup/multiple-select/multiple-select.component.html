@@ -1,5 +1,5 @@
 <mat-form-field>
-    <mat-label>Competences</mat-label>
+    <mat-label>{{"competences" | translate}}</mat-label>
     <mat-select (valueChange)="onCompetencesChanged($event)" multiple [(value)]="selectedOptions" required>
         <mat-option *ngFor="let option of options" [value]="option.value">
             {{ option.value }}

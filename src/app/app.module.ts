@@ -7,7 +7,6 @@ import { authGuardGuard } from 'src/Guard/auth-guard.guard';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SidemenuComponent } from './components/sidemenu/sidemenu.component';
-import { HomeComponent } from './pages/home/home.component';
 import { DemandPageComponent } from './pages/demand-page/demand-page.component';
 import { AppButtonComponent } from './components/app-button/app-button.component';
 import { OfferPageComponent } from './pages/offer-page/offer-page.component';
@@ -28,7 +27,7 @@ import { EmailValidatorDirective } from './pages/login/email-validator.directive
 
 // Material imports
 import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
@@ -59,7 +58,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 // @angular imports
 import { JsonPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClient, HttpClientModule } from '@angular/common/http'
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -68,7 +67,6 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { LegendComponent } from './components/legend/legend.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MainComponent } from './components/main/main.component';
 import { TopWidgetsComponent } from './components/top-widgets/top-widgets.component';
 import { SalesByMonthComponent } from './components/sales-by-month/sales-by-month.component';
 import { SalesByCategoryComponent } from './components/sales-by-category/sales-by-category.component';
@@ -76,8 +74,14 @@ import { LastFewTransComponent } from './components/last-few-trans/last-few-tran
 import { TopThreeProductsComponent } from './components/top-three-products/top-three-products.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChartModule } from 'angular-highcharts';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -91,11 +95,12 @@ const routes: Routes = [
 @NgModule({
     providers: [
         PopupService,
-        AlertService
+        AlertService,
+        HttpClient,
+        { provide: MatPaginatorIntl, useClass: MaterialTableComponent }
     ],
     bootstrap: [AppComponent],
     declarations: [
-        HomeComponent,
         HeaderComponent,
         SidemenuComponent,
         AppComponent,
@@ -116,12 +121,12 @@ const routes: Routes = [
         DashboardComponent,
         LandingPageComponent,
         LegendComponent,
-        MainComponent,
         TopWidgetsComponent,
         SalesByMonthComponent,
         SalesByCategoryComponent,
         LastFewTransComponent,
         TopThreeProductsComponent,
+        DateRangePickerComponent,
 
     ],
     imports: [
@@ -135,7 +140,7 @@ const routes: Routes = [
         MatDatepickerModule,
         MatInputModule,
         MatFormFieldModule,
-        DateRangePickerComponent,
+
         MatSelectModule,
         MatOptionModule,
         MatTableModule,
@@ -158,7 +163,14 @@ const routes: Routes = [
         MatTooltipModule,
         ReactiveFormsModule,
         MatAutocompleteModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     exports: [
         OpenViewTableComponent

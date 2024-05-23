@@ -13,7 +13,7 @@ export class RequestDialogComponent {
     private roleService: RolesService
   ) {  }
 
-  displayedColumns: string[] = ['id', 'reason', 'roleRequested', 'userId', 'accept'];
+  displayedColumns: string[] = ['id', 'reason', 'roleRequested', 'roleRequestedId', 'userId', 'accept'];
 
   roleRequests: any[] = [];
 
@@ -22,13 +22,13 @@ export class RequestDialogComponent {
   }
 
   loadRoleRequests() {
-    // Assuming your service returns an observable
     this.roleService.GetRolesRequests().subscribe(
       (data: any[]) => {
-        this.roleRequests = data; // Assign data to roleRequests array
+        this.roleRequests = data;
+        console.log(data) 
       },
       (error) => {
-        console.error(error); // Handle errors
+        console.error(error); 
       }
     );
   }

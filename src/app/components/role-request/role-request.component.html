@@ -1,29 +1,29 @@
 <div class="role-upgrade">
     <form #myForm="ngForm">
         <div class="form-row form-general-info">
-            <h3>Select the role you want to upgrade to:</h3>
+            <h3>{{"select the role you want to upgrade to" |translate}}:</h3>
             <ul>
                 <li *ngIf="userPageRole === 'viewer'">
                     <input type="radio" id="standard" name="user_role" value="standard" [(ngModel)]="roleRequested">
-                    <label for="standard">Standard User</label>
+                    <label for="standard">{{"Standard" | translate}}</label>
                 </li>
                 <li *ngIf="userPageRole === 'viewer' || userPageRole === 'standard_user'">
                     <input type="radio" id="key-user" name="user_role" value="key-user" [(ngModel)]="roleRequested">
-                    <label for="key-user">Key User</label>
+                    <label for="key-user">{{"Key user" |translate}}</label>
                 </li>
                 <li *ngIf="userPageRole !== 'standard'">
                     <input type="radio" id="admin" name="user_role" value="admin" [(ngModel)]="roleRequested">
-                    <label for="admin">Admin User</label>
+                    <label for="admin">{{"Admin" | translate}}</label>
                 </li>
             </ul>
 
             <div id="reason-container">
-                <label for="reason">Reason for Upgrade:</label>
-                <input type="text" id="reason" name="reason" placeholder="Enter reason here" [(ngModel)]="reason">
+                <label for="reason">{{"reason for upgrade:" | translate}}</label>
+                <input type="text" id="reason" name="reason" placeholder="{{'enter reason here' | translate}}" [(ngModel)]="reason">
             </div>
         </div>
 
-        <button (click)="submitForm()" class="submit-btn" type="button">Submit</button>
+        <button (click)="submitForm()" class="submit-btn" type="button">{{"submit" |translate }}</button>
 
     </form>
 </div>

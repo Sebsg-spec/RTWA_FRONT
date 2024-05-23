@@ -1,9 +1,9 @@
 <div class="transactions">
-    <div class="title">Last few transactions</div>
+    <div class="title">{{"last few transactions" | translate}}</div>
     <div class="transaction-wrapper">
         <div class="transaction" *ngFor="let transaction of transactions">
 
-            <div class="title">{{ transaction.title }}</div>
+            <div class="title">{{ transaction.title | translate }}</div>
             <div class="shop-location">
                 <div class="shop">{{ transaction.shop }}</div>
             </div>
@@ -11,7 +11,7 @@
           confirmed: transaction.status === 'confirmed',
           pending: transaction.status === 'pending'
         }">
-                {{ transaction.status }}
+                {{ transaction.status | translate}}
             </div>
         </div>
     </div>

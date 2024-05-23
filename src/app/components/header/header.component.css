@@ -45,7 +45,7 @@ hr {
     justify-content: space-around;
     align-items: center;
     width: 250px;
-    margin-right: 50px;
+    margin-right: 15px;
 
 }
 
@@ -84,14 +84,11 @@ hr {
     transition: transform ease .3s;
 }
 
-/* Tooltip container */
 .icon-container {
     position: relative;
     display: inline-block;
-    /* border-bottom: 1px dotted black; If you want dots under the hoverable text */
 }
 
-/* Tooltip text */
 .icon-container .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -103,13 +100,10 @@ hr {
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
 .icon-container:hover .tooltiptext {
     visibility: visible;
 }
@@ -120,4 +114,8 @@ hr {
     left: 50%;
     margin-left: -60px;
     /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+.form-select{
+width: 9% !important;
 }

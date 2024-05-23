@@ -9,7 +9,7 @@ export class DataService {
 
   public tableType: number | undefined ;
 
-  public formName: string | undefined ; 
+  public formName!: string ; 
 
   public titleName: string | undefined;
   

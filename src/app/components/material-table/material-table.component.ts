@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { Package } from 'src/app/models/Package';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControlsService } from 'src/app/services/formcontrols.service';
 import { start } from '@popperjs/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-material-table',
@@ -17,7 +18,7 @@ import { start } from '@popperjs/core';
 	styleUrls: ['./material-table.component.css']
 })
 
-export class MaterialTableComponent implements OnInit {
+export class MaterialTableComponent extends MatPaginatorIntl {
 	@Input() inputTitle: string = '';
 	@Input() set data(value: Element[]) {
 		this.dataSource.data = value;
@@ -53,7 +54,26 @@ export class MaterialTableComponent implements OnInit {
 	constructor(private router: Router,
 		private dataService: DataService,
 		private userService: UserRolesService,
-		private formControls: FormControlsService) { }
+		private formControls: FormControlsService,
+		private translate: TranslateService
+	) { 
+		super();
+		this.translateLabels();
+
+		this.translate.onLangChange.subscribe(() => {
+			this.translateLabels();
+			this.changes.next();
+		});
+			
+	}
+
+	translateLabels() {
+		this.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE');
+		this.nextPageLabel = this.translate.instant('NEXT_PAGE');
+		this.previousPageLabel = this.translate.instant('PREVIOUS_PAGE');
+		this.firstPageLabel = this.translate.instant('FIRST_PAGE');
+		this.lastPageLabel = this.translate.instant('LAST_PAGE');
+	}
 
 	private _filter(value: string): Options[] {
 		const filterValue = value.toLowerCase();
@@ -116,6 +136,7 @@ export class MaterialTableComponent implements OnInit {
 			this.sort.active = 'startdate';
 			this.sort.direction = 'asc';
 		}, 1);
+		console.log(this.dataDisplayed)
 
 	}
 

@@ -3,8 +3,8 @@ import { FormControlsService } from 'src/app/services/formcontrols.service';
 
 //Interface for showing the data in the competences dropdown
 interface Options {
-    value?: string;
-    viewValue?: string;
+    value: string;
+    viewValue: string;
 }
 
 @Component({

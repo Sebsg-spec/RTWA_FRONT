@@ -1,16 +1,19 @@
 <div class="lack-form">
 	<form #myForm="ngForm">
 		<div class="form-row form-general-info">
-			<h3>Are you sure you want to submit?</h3>
+			
+			<h3 *ngIf="buttontype == 'submit'">{{"are you sure you want to submit?" | translate}}</h3>
+
+			<h3 *ngIf="buttontype !== 'submit'" >{{"are you sure you want to accept?" | translate}}</h3>
 		</div>
 		<button mat-button *ngIf="buttontype === 'submit'" (click)="confirmYes()" class="submit-btn"
-			type="button">Yes</button>
+			type="button">{{"yes" | translate}}</button>
 		<button mat-button *ngIf="buttontype === 'submit'" (click)="confirmNo()" class="close-btn"
-			type="button">No</button>
+			type="button">{{"no" | translate}}</button>
 
 		<button mat-button *ngIf="buttontype !== 'submit'" (click)="confirmYesUser()" class="submit-btn"
-			type="button">Yes</button>
+			type="button">{{"yes" | translate}}</button>
 		<button mat-button *ngIf="buttontype !== 'submit'" (click)="confirmNo()" class="close-btn"
-			type="button">No</button>
+			type="button">{{"no" | translate}}</button>
 	</form>
 </div>

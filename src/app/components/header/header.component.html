@@ -1,41 +1,41 @@
-<h1 class="title">Real-Time Workforce Allocation</h1>
+<h1 class="title">{{'title' | translate}}</h1>
 <div class="feedback-btn-container">
     <div class="feedback-btn">
         <div class="icon-container">
-            <a href=""
-                target="_blank" rel="noopener">
+            <a href="" target="_blank" rel="noopener">
                 <img src="assets/img/education.jpg" alt="Link Icon">
             </a>
-            <span class="tooltiptext">Learn more about this project</span>
+            <span class="tooltiptext">{{"learn more about this project" | translate}}</span>
         </div>
         <div class="icon-container">
-            <a href=""
-                target="_blank" rel="noopener">
+            <a href="" target="_blank" rel="noopener">
                 <img src="assets/img/service-agent.jpg" alt="Link Icon">
             </a>
-            <span class="tooltiptext">Need support?</span>
+            <span class="tooltiptext">{{"need support?" | translate}}</span>
         </div>
         <div class="icon-container">
-            <a href=""
-                target="_blank" rel="noopener">
+            <a href="" target="_blank" rel="noopener">
                 <img src="assets/img/lightbulb.jpg" alt="Link Icon">
             </a>
-            <span class="tooltiptext">Submit your ideas</span>
+            <span class="tooltiptext">{{"submit your ideas" | translate}}</span>
         </div>
         <div class="icon-container">
-            <a href=""
-                target="_blank" rel="noopener">
+            <a href="" target="_blank" rel="noopener">
                 <img src="assets/img/thumb-up-down.jpg" alt="Link Icon">
             </a>
-            <span class="tooltiptext">Give us Feedback</span>
+            <span class="tooltiptext">{{"give us feedback" | translate}}</span>
         </div>
 
         <div class="icon-container" *ngIf="userRole === 'admin'">
             <a href="./assets/docs/RTWA_Technical_Documentation.pdf" target="_blank" rel="noopener">
                 <img src="assets/img/document-pdf.png" alt="Link Icon">
             </a>
-            <span class="tooltiptext">Technical Documentation</span>
+            <span class="tooltiptext">{{"tehnical documentation" | translate}}</span>
         </div>
 
     </div>
+    <select class="form-select" (change)="changeLang($event)">
+        <option [selected]="lang === 'en'" value="en">{{"english" | translate}}</option>
+        <option [selected]="lang === 'ro'" value="ro">{{"romanian" | translate}}</option>
+    </select>
 </div>

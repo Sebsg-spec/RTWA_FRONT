@@ -1,7 +1,7 @@
 <sidemenu (sideMenuState)="isSideMenuClosed = $event"></sidemenu>
 <div class="landing-page" [ngClass]="{'open': !isSideMenuClosed}">
 	<header></header>
-	<h1>Home</h1>
+	<h1>{{"home" | translate}}</h1>
 	
 	<ngb-datepicker #dp 
 	(dateSelect)="onDateSelection($event)" 
@@ -17,14 +17,14 @@
          'custom-date-surplus': getHighlightType(date) === 2,
          'custom-date-both': getHighlightType(date) === 3
        }">
-			{{ date.day }}
+			{{ date.day | translate }}
 		</div>
 	</ng-template>
 
 	<app-legend></app-legend>
 
 	<ng-container class="table" *ngIf="sendData && sendData.length > 0">
-		<h3 class="home-table-title">Packages for {{date | date: 'dd MMM yyyy'}}</h3>
+		<h3 class="home-table-title">{{"packages for" | translate}} {{date | date: 'dd MMM yyyy'}}</h3>
 		<app-material-table [data]="sendData"></app-material-table>
 	</ng-container>
 

@@ -3,10 +3,11 @@
 <body>
     <div class="lack-page" [ngClass]="{'open': !isSideBarClosed}">
         <header></header>
-        <h1>Personnel Demand</h1>
+        <h1>{{"personnel demand" | translate}}</h1>
         <div> <app-material-table [data]="sendData"></app-material-table>
         </div>
         <app-button [buttonText]="lackButtonValue"></app-button>
+        
     </div>
     <router-outlet></router-outlet>
 </body>

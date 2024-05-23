@@ -1,29 +1,30 @@
 <div class="lack-form">
-    <h3>{{formularName}}</h3>
+    <h3>{{formularName | translate}}</h3>
     <p-tabView>
-        <p-tabPanel header="One day or more">
+        <p-tabPanel header="{{'one day or more' | translate}}">
             <form #myForm="ngForm" (ngSubmit)="openAlertAndCreateSurplus()">
 
                 <div class="form-general-info form-row">
                     <div class="form-element">
+                        
                         <date-range-picker (daysDifferenceChange)="onDaysDifferenceChange($event)" class="selected" required
-                            (dateRangeSelected)="onDateRangeSelected($event)" class = 'selected' required>
+                            (dateRangeSelected)="onDateRangeSelected($event)" required>
                         </date-range-picker>
                         <div class="hints">
-                            <p *ngIf="daysDifference">{{ daysDifference }} days selected</p>
+                            <p *ngIf="daysDifference">{{ daysDifference }} {{"days selected" | translate}}</p>
                         </div>
                     </div>
 
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Shift</mat-label>
+                            <mat-label>{{"shift" | translate}}</mat-label>
                             <mat-select name="shift1" [(ngModel)]="selectedShift" required>
-                                <mat-option *ngFor="let shift of shifts" [value]="shift.value">{{ shift.viewValue }}
+                                <mat-option *ngFor="let shift of shifts" [value]="shift.value">{{ shift.viewValue | translate }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                         <div class="hints">
-                            <p *ngIf="selectedShift"> Hour Interval: {{ showShiftInterval(selectedShift)}}</p>
+                            <p *ngIf="selectedShift"> {{"hour Interval" | translate}}: {{ showShiftInterval(selectedShift)}}</p>
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
                 <div class="form-row form-general-info">
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Department</mat-label>
+                            <mat-label>{{"department" | translate}}</mat-label>
                             <mat-select name="department" [(ngModel)]="selectedDepartment" required>
                                 <mat-option *ngFor="let department of departments"
                                     [value]="department.value">{{department.viewValue }}
@@ -44,7 +45,7 @@
 
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Function</mat-label>
+                            <mat-label>{{"function" | translate}}</mat-label>
                             <mat-select name="function" [(ngModel)]="selectedFunction" required>
                                 <mat-option *ngFor="let fun of funs" [value]="fun.value">{{ fun.viewValue }}
                                 </mat-option>
@@ -63,38 +64,38 @@
                     <div class="form-element">
                         <mat-form-field class="number-input">
                             <input matInput type="number" name="totalEmployees" id="totalEmployees1"
-                                [placeholder]="'No. of people'" min="1" max="100" required [(ngModel)]="totalEmployees"
+                                [placeholder]="'no. of people' | translate" min="1" max="100" required [(ngModel)]="totalEmployees"
                                 #name="ngModel" (blur)="handleBlur($event)">
                         </mat-form-field>
                     </div>
                 </div>
 
                 <button mat-button class="submit-btn" type="submit" id="submit-btn1" [disabled]="!myForm.form.valid"
-                    [ngStyle]="{'background-color': !myForm.form.valid ? '#808080' : '', 'border':!myForm.form.valid ? '1px solid #808080' : ''}">Submit</button>
-                <button mat-button (click)="closeDialog()" class="close-btn" type="button">Cancel</button>
+                    [ngStyle]="{'background-color': !myForm.form.valid ? '#808080' : '', 'border':!myForm.form.valid ? '1px solid #808080' : ''}">{{"submit" | translate}}</button>
+                <button mat-button (click)="closeDialog()" class="close-btn" type="button">{{"cancel" | translate}}</button>
 
             </form>
         </p-tabPanel>
 
-        <p-tabPanel header="Less than one day">
+        <p-tabPanel header="{{'less than one day' | translate}}">
             <form #myForm="ngForm" (ngSubmit)="openAlertAndCreateSurplus()">
 
                 <div class="form-general-info form-row">
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Choose a date</mat-label>
+                            <mat-label>{{"choose a date"| translate}}</mat-label>
                             <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event.value)">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                         <div class="hints">
-                            <p *ngIf="date2"> Selected start date: {{ date2 | date:'MMM dd yyyy' }}</p>
+                            <p *ngIf="date2"> {{"selected start date" | translate}}: {{ date2 | date:'MMM dd yyyy' }}</p>
                         </div>
                     </div>
 
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Shift</mat-label>
+                            <mat-label>{{"shift" | translate}}</mat-label>
                             <mat-select name="shift2" [(ngModel)]="selectedShift"
                                 (ngModelChange)="handleShiftHours($event)" required>
                                 <mat-option *ngFor="let shift of shifts" [value]="shift.value">{{ shift.viewValue }}
@@ -102,13 +103,13 @@
                             </mat-select>
                         </mat-form-field>
                         <div class="hints">
-                            <p *ngIf="selectedShift"> Hour Interval: {{ showShiftInterval(selectedShift)}}</p>
+                            <p *ngIf="selectedShift"> {{"hour interval" | translate}}: {{ showShiftInterval(selectedShift)}}</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-general-info form-row warning-container">
-                    <p class="warning" *ngIf="!isIntervalValid()">Required time interval of at least 2 hours</p>
+                    <p class="warning" *ngIf="!isIntervalValid()">{{"Required time interval of at least 2 hours" | translate}}</p>
                 </div>
 
                 <div class="form-general-info form-row">
@@ -118,7 +119,7 @@
                                 [minuteStep]="minuteStep"></ngb-timepicker>
                             <hr />
                             <div class="hints">
-                                <p *ngIf="selectedShift">Start Time: {{ convertTimeToDate(startTime) | date: 'HH:mm' }}
+                                <p *ngIf="selectedShift">{{"start time" | translate}}: {{ convertTimeToDate(startTime) | date: 'HH:mm' }}
                                 </p>
                             </div>
                         </div>
@@ -133,7 +134,7 @@
                             <hr />
                             <div class="hints">
                                 <p *ngIf="selectedShift">
-                                    End Time: {{ convertTimeToDate(endTime) | date: 'HH:mm' }}
+                                    {{"end time" | translate}}: {{ convertTimeToDate(endTime) | date: 'HH:mm' }}
                                 </p>
 
                             </div>
@@ -144,7 +145,7 @@
                 <div class="form-row form-general-info">
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Department</mat-label>
+                            <mat-label>{{"department" | translate}}</mat-label>
                             <mat-select name="department" [(ngModel)]="selectedDepartment" required>
                                 <mat-option *ngFor="let department of departments"
                                     [value]="department.value">{{department.viewValue }}
@@ -156,7 +157,7 @@
 
                     <div class="form-element">
                         <mat-form-field>
-                            <mat-label>Function</mat-label>
+                            <mat-label>{{"function" | translate}}</mat-label>
                             <mat-select name="function" [(ngModel)]="selectedFunction" required>
                                 <mat-option *ngFor="let fun of funs" [value]="fun.value">{{ fun.viewValue }}
                                 </mat-option>
@@ -175,7 +176,7 @@
                     <div class="form-element">
                         <mat-form-field class="number-input">
                             <input matInput type="number" name="totalEmployees" id="totalEmployees2"
-                                [placeholder]="'No of people'" min="1" max="100" required [(ngModel)]="totalEmployees"
+                                [placeholder]="'no. of people' | translate" min="1" max="100" required [(ngModel)]="totalEmployees"
                                 #name="ngModel">
                         </mat-form-field>
                     </div>
@@ -184,10 +185,10 @@
                 <button class="submit-btn" type="submit" id="submit-btn2"
                     [disabled]="!myForm.form.valid || !isIntervalValid()"
                     [ngStyle]="{'background-color': (!myForm.form.valid || !isIntervalValid()) ? '#808080' : '', 'border': ( !myForm.form.valid || !isIntervalValid()) ? '1px solid #808080' : ''}">
-                    Submit
+                    {{"submit" | translate}}
                 </button>
 
-                <button (click)="closeDialog()" class="close-btn" type="button">Cancel</button>
+                <button (click)="closeDialog()" class="close-btn" type="button">{{"cancel" | translate}}</button>
 
             </form>
         </p-tabPanel>

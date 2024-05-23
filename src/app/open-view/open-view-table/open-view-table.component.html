@@ -5,37 +5,37 @@
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{"No." | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
     </ng-container>
 
     <!-- Function Column -->
     <ng-container matColumnDef="function">
-      <mat-header-cell *matHeaderCellDef> Function </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{"function" | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.functions}} </mat-cell>
     </ng-container>
 
     <!-- Competences Column -->
     <ng-container matColumnDef="competences">
-      <mat-header-cell *matHeaderCellDef> Competences </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{"competences" | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.competences}} </mat-cell>
     </ng-container>
 
     <!-- Department Column -->
     <ng-container matColumnDef="department">
-      <mat-header-cell *matHeaderCellDef> Department </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{"department" | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
     </ng-container>
 
     <!-- Start Date Column -->
     <ng-container matColumnDef="startdate">
-      <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.startdate | date: 'dd MMM yyyy - HH:mm'}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef> {{"start date" | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.startdate | date: 'dd MMM yyyy - HH:mm' }} </mat-cell>
     </ng-container>
 
     <!-- End Date Column -->
     <ng-container matColumnDef="enddate">
-      <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{"end date" | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.enddate | date: 'dd MMM yyyy - HH:mm'}} </mat-cell>
     </ng-container>
 
@@ -46,7 +46,7 @@
         <mat-checkbox (change)="masterToggle()" [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()" labelPosition="before"
           class="mat-accent hidden-checkbox">
-          Select All </mat-checkbox>
+          {{"select all" | translate}} </mat-checkbox>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"

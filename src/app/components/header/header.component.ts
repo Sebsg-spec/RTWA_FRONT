@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { FormControlsService } from 'src/app/services/formcontrols.service';
 import { UserRolesService } from 'src/app/services/user-roles.service';
 
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
 
@@ -20,9 +21,11 @@ export class HeaderComponent implements OnInit {
   support: string | undefined;
   suggest: string | undefined
   feedback: string | undefined;
+  lang = "";
   constructor(
     private userService: UserRolesService,
-    private formControlservice: FormControlsService) { }
+    private formControlservice: FormControlsService,
+    private translateService: TranslateService) { }
 
   ngOnInit(): void {
     const accountId = this.userId;
@@ -36,6 +39,10 @@ export class HeaderComponent implements OnInit {
         console.error('Failed to fetch user roles:', error);
       }
     );
+
+    this.lang = localStorage.getItem('lang') || 'ro'
+
+
 
     // this.formControlservice.getRequestFormByType('Enduser').subscribe(
     //   (response: any) => {
@@ -69,6 +76,16 @@ export class HeaderComponent implements OnInit {
     //     console.error('Error fetching form data:', error);
     //   }
     // );
+  }
+
+  changeLang(lang: any) {
+    const selectedLanguage = lang.target.value;
+
+    localStorage.setItem('lang', selectedLanguage);
+
+    this.translateService.use(selectedLanguage);
+
+
   }
 
 }
