@@ -43,7 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // NGX Bootstrap
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerI18n, NgbModule, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
@@ -97,7 +97,8 @@ const routes: Routes = [
         PopupService,
         AlertService,
         HttpClient,
-        { provide: MatPaginatorIntl, useClass: MaterialTableComponent }
+        { provide: MatPaginatorIntl, useClass: MaterialTableComponent },
+        { provide: NgbDatepickerI18n, useClass: LandingPageComponent }
     ],
     bootstrap: [AppComponent],
     declarations: [
@@ -181,3 +182,4 @@ export class AppModule {
         this.matIconRegistry.addSvgIcon('warning', this.domSanitizer.bypassSecurityTrustResourceUrl(''));
     }
 }
+    

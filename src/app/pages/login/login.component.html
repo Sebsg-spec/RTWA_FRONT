@@ -9,10 +9,12 @@
 
 <body>
 
-     <select class="form-select" (change)="changeLang($event)">
-        <option [selected]="lang === 'en'" value="en">{{"english" | translate}}</option>
-        <option [selected]="lang === 'ro'" value="ro">{{"romanian" | translate}}</option>
+<div class="top-right-corner">
+    <select class="form-select" (change)="changeLang($event)">
+        <option [selected]="lang === 'en'" value="en">{{ 'english' | translate }}</option>
+        <option [selected]="lang === 'ro'" value="ro">{{ 'romanian' | translate }}</option>
     </select>
+</div>
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form #myForm="ngForm" [formGroup]="registerForm">

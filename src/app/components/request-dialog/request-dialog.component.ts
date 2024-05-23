@@ -25,7 +25,7 @@ export class RequestDialogComponent {
     this.roleService.GetRolesRequests().subscribe(
       (data: any[]) => {
         this.roleRequests = data;
-        console.log(data) 
+       
       },
       (error) => {
         console.error(error); 
@@ -38,7 +38,6 @@ export class RequestDialogComponent {
 
     this.roleService.updateRoleRequest(roleRequest.id, roleRequest).subscribe(
       response =>{
-        console.log(response)
         window.location.reload();
       }
     )

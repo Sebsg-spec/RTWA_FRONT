@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
     private translateService: TranslateService) { }
 
   ngOnInit(): void {
+    
     const accountId = this.userId;
     this.userService.getUserRoles(accountId!).subscribe(
       roles => {
@@ -79,6 +80,9 @@ export class HeaderComponent implements OnInit {
   }
 
   changeLang(lang: any) {
+    this.translateService.onLangChange.subscribe(() => {
+      window.location.reload()
+    });
     const selectedLanguage = lang.target.value;
 
     localStorage.setItem('lang', selectedLanguage);

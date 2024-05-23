@@ -136,8 +136,6 @@ export class MaterialTableComponent extends MatPaginatorIntl {
 			this.sort.active = 'startdate';
 			this.sort.direction = 'asc';
 		}, 1);
-		console.log(this.dataDisplayed)
-
 	}
 
 	onOptionsSelected(selection: string) {

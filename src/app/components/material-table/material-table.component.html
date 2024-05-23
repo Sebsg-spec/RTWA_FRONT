@@ -19,7 +19,7 @@
 				<mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
 			</ng-container>
 			<!-- Type Column -->
-			<ng-container matColumnDef="type" *ngIf="pageTitle == 'landing'">
+			<ng-container *ngIf="pageTitle ==  'landing'" matColumnDef="type" >
 				<mat-header-cell *matHeaderCellDef mat-sort-header> {{"Type" | translate}}</mat-header-cell>
 				<mat-cell *matCellDef="let element"> {{element.type == 1 ? ("Demand" | translate) : ("Offer" |
 					translate)}} </mat-cell>

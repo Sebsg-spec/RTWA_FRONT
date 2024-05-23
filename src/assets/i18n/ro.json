@@ -90,18 +90,6 @@
     "quality_control": "Quality Control",
     "title_month": "Tranzacții pe lună",
     "monthly_usage": "Utilizare lunară",
-    "JAN": "Ian",
-    "FEB": "Feb",
-    "MAR": "Mar",
-    "APR": "Apr",
-    "MAY": "Mai",
-    "JUN": "Iun",
-    "JUL": "Iul",
-    "AUG": "Aug",
-    "SEP": "Sep",
-    "OCT": "Oct",
-    "NOV": "Noi",
-    "DEC": "Dec",
     "select the role you want to upgrade to": "Alege rolul pentru upgrade",
     "reason for upgrade:": "Motivul cererii",
     "enter reason here": "Scrie motivul aici",
@@ -125,6 +113,7 @@
     "Register with your personal details to use all of site features": "Înregistrează-te cu datele tale personale pentru a te bucura de toate funcționalitațile site-ului",
     "Enter your personal details to use all of site features": "Conectează-te cu datele tale personale pentru a folosi toate funcționalitațile site-ului",
     "name": "Nume",
-    "Confirm Password": "Confirmă parola"
+    "Confirm Password": "Confirmă parola",
+    "Wrong credentials": "Date de conetare incorecte"
     
 }

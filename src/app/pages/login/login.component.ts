@@ -124,8 +124,8 @@ export class LoginComponent implements OnInit {
           this.canAcces = "false"
 
           sessionStorage.setItem('canAcces', this.canAcces)
-
-          alert(respons.message)
+          const translatedMessage = this.translateService.instant(respons.message);
+          alert(translatedMessage);
         }
       })
 

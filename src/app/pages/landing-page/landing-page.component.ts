@@ -1,8 +1,9 @@
 
-import { formatDate } from '@angular/common';
+import { TranslationWidth, formatDate } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
-import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { Package } from 'src/app/models/Package';
 import { DataService } from 'src/app/services/data.service';
 import { PackageService } from 'src/app/services/package.service';
@@ -12,16 +13,52 @@ interface DateItem {
   type: number;
 }
 
+const I18N_VALUES : any = {
+  'en': {
+    weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  },
+  'ro': {
+    weekdays: ['Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm', 'Dum'],
+    months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+  }
+};
+
+
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css'],
 })
 
-export class LandingPageComponent implements OnInit {
-  constructor(private packageService: PackageService) {
-    sessionStorage.setItem('pageTitle', this.page);
+export class LandingPageComponent extends NgbDatepickerI18n implements OnInit {
+
+  constructor( private translateService: TranslateService, private packageService: PackageService) {
+    super()
+    sessionStorage.setItem("pageType", 'landing')
+
   }
+
+
+  getWeekdayLabel(weekday: number, width?: TranslationWidth): string {
+    const lang = this.translateService.currentLang;
+    return I18N_VALUES[lang].weekdays[weekday - 1];
+  }
+
+  getMonthShortName(month: number, year?: number): string {
+    const lang = this.translateService.currentLang;
+    return I18N_VALUES[lang].months[month - 1];
+  }
+
+  getMonthFullName(month: number, year?: number): string {
+    const lang = this.translateService.currentLang;
+    return I18N_VALUES[lang].months[month - 1];
+  }
+
+  getDayAriaLabel(date: NgbDateStruct): string {
+    return `${date.day}-${date.month}-${date.year}`;
+  }
+
 
   displayMonths = 2;
 
@@ -47,14 +84,14 @@ export class LandingPageComponent implements OnInit {
 
   model: NgbDate | null = null;
 
-  date!: string ;
+  date!: string;
 
   packageData: Package[] = [];
 
   packageTableData: any[] = [];
 
   sendData: any[] = [];
-  
+
   highlightedDates: { date: NgbDateStruct, type: number }[] = [];
 
 
@@ -78,6 +115,7 @@ export class LandingPageComponent implements OnInit {
 
 
   ngOnInit(): void {
+ 
     this.packageService.getData().subscribe(
       response => {
         if (response && response.length > 0) {

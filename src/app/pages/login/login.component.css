@@ -220,3 +220,15 @@ body {
     transform: translateX(200%);
 }
 
+.top-right-corner {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.form-select {
+    padding: 10px 30px;
+    font-size: 14px;
+}
+
