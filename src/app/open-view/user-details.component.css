@@ -121,7 +121,6 @@ button.close-btn {
     font-size: 1.5rem;
     color: #aaa;
     margin-left: auto;
-    /* Adjusted margin to move "X" button more to the corner */
 }
 
 .close-button:hover {

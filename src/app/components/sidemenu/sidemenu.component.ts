@@ -64,7 +64,10 @@ export class SidemenuComponent implements OnInit {
 
 		this.userService.getUserRoles(accountId!).subscribe(
 			roles => {
-				if (roles[0] === 'standard_user'){
+				if (roles[0] === 'viewer') {
+					this.userRole = 'Viewer'
+				}
+				else if (roles[0] === 'standard_user'){
 					this.userRole = 'Standard' 
 				}else if(roles[0] === 'key_user'){
 					this.userRole = 'Key User'

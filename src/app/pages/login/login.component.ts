@@ -131,35 +131,42 @@ export class LoginComponent implements OnInit {
 
   }
 
+  
   onRegister(): any {
+
+    if (this.registerForm.valid) {
+      this.registerObj.fullname = this.registerForm.controls['fullname'].value;
+      this.registerObj.email = this.registerForm.controls['email'].value;
+      this.registerObj.password = this.registerForm.controls['password'].value;
+
     this.http.post(`https://localhost:7217/api/LogIn/Register`, this.registerObj)
       .subscribe(
         (response: any) => {
-          alert(response.message);
           if (response.message == 'Account already exists.') {
+            const translatedMessage = this.translateService.instant(response.message);
+            alert(translatedMessage);
             const container: HTMLElement | null = document.getElementById('container');
             if (container) {
               container.classList.remove("active");
             }
             this.registerForm.reset();
           }
+          else if (response.message == 'Account created successfully') {
+            const translatedMessage = this.translateService.instant(response.message);
+            alert(translatedMessage);
+            const container: HTMLElement | null = document.getElementById('container');
+            if (container) {
+              container.classList.remove("active");
+            }
+            this.registerForm.reset();
+          }
+
         }
       );
   }
 }
 
 
-
-export class Register {
-  username: string;
-  email: string;
-  password: string;
-
-  constructor() {
-    this.username = ""
-    this.email = ""
-    this.password = ""
-  }
 
 }
 

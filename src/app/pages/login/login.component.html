@@ -19,10 +19,13 @@
         <div class="form-container sign-up">
             <form #myForm="ngForm" [formGroup]="registerForm">
                 <h1>{{"create account" | translate}}</h1>
+
                 <input type="text" formControlName="fullname" name="username" [(ngModel)]="registerObj.fullname"
                     placeholder="{{'name' | translate}}" required>
+
                 <div style="color: red;" *ngIf="registerForm.controls['fullname'].invalid 
                 && registerForm.controls['fullname'].touched">{{"name is required!" | translate}}</div>
+
                 <input type="email" formControlName="email" name="email" [(ngModel)]="registerObj.email "
                     placeholder="{{'Email' | translate}}" required>
                 <div 
@@ -87,7 +90,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
 </body>
 
 </html>

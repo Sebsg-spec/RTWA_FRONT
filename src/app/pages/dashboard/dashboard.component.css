@@ -9,14 +9,11 @@
     transition: margin-left 0.5s ease;
 }
 
-.top-section {
-    /* Media queries for .top-section */
-}
+
 
 .middle-section {
     display: flex;
     justify-content: space-between;
-    /* Media queries for .middle-section */
 
     .widget {
         height: 350px;
@@ -27,7 +24,6 @@
 
         &.left {
             width: 890px;
-            /* Media queries for .middle-section .widget.left */
         }
 
         &.right {
@@ -49,17 +45,15 @@
 
         &.left {
             width: 670px;
-            /* Media queries for .bottom-section .widget.left */
         }
 
         &.right {
             width: 670px;
-            /* Media queries for .bottom-section .widget.right */
         }
     }
 }
 
-/* Media queries */
+
 @media only screen and (max-width: 1600px) {
 
     .top-section,

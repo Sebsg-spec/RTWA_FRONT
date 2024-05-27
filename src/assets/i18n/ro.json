@@ -9,6 +9,7 @@
     "requested role upgrade": "Cereri upgrade de rol",
     "log out": "Deconectați-vă",
     "Standard": "Rol Standard",
+    "Viewer": "Vizitator",
     "Key User": "Utilizator cheie",
     "Admin": "Administrator",
     "Offer": "Ofertă",
@@ -114,6 +115,9 @@
     "Enter your personal details to use all of site features": "Conectează-te cu datele tale personale pentru a folosi toate funcționalitațile site-ului",
     "name": "Nume",
     "Confirm Password": "Confirmă parola",
-    "Wrong credentials": "Date de conetare incorecte"
+    "Wrong credentials": "Date de conetare incorecte",
+    "Account created successfully": "Cont creat cu succes!",
+    "Account already exists.": "Contul exista deja."
+
     
 }

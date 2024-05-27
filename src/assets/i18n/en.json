@@ -113,7 +113,10 @@
     "Enter your personal details to use all of site features": "Enter your personal details to use all of site features",
     "name": "Name",
     "Confirm Password" : "Confirm Password",
-    "Wrong credentials": "Wrong credentials"
+    "Wrong credentials": "Wrong credentials",
+    "Account created successfully": "Account created successfully",
+    "Account already exists.": "Account already exists.",
+    "Viewer": "Viewer"
     
 
 
