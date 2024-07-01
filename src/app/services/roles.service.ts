@@ -22,7 +22,7 @@ export class RolesService {
     });
   }
 
-  public GetRoleRequest(account_id: string | null): Observable<any> {
+  public GetRoleRequest(account_id: number | null): Observable<any> {
 
     return this.http.get<Request>(`${environment.baseApiUrl}/${this.url}/roleRequest?accountId=${account_id}`);
   }

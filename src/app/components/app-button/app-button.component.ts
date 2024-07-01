@@ -14,7 +14,8 @@ export class AppButtonComponent implements OnInit {
 	// stores the user's role, initially empty
 	userRole: string = '';
 	// gets the user's account id from the session storage
-	userId: string | null = sessionStorage.getItem('username');
+	 username = sessionStorage.getItem('username');
+	 userId: number | null = this.username !== null ? parseInt(this.username, 10) : null;
 	// array of user roles
 	userRoles: string[] = [];
 

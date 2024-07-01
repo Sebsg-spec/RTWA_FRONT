@@ -27,7 +27,9 @@ export class RoleRequestComponent {
 
   account_id: number = 0;
   // gets the user's account id from the session storage
-  userId: string | null = sessionStorage.getItem('username');
+   username = sessionStorage.getItem('username');
+   userId: number | null = this.username !== null ? parseInt(this.username, 10) : null;
+
   // array of user roles
   userRoles: string[] = [];
 
@@ -48,11 +50,7 @@ export class RoleRequestComponent {
         console.error('Failed to fetch user roles:', error);
       }
     );
-    this.roleService.GetRoleRequest(this.userId).subscribe(
-      response =>{
-        console.log(response)
-      }
-    )
+    
   }
 
   submitForm() {

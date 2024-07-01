@@ -14,7 +14,7 @@ export class UserRolesService {
 
 	// Match account_id with its role in the db and return an array of roles
 	// In the components, access the first item in the userRoles array to get user's role
-	getUserRoles(accountId: string): Observable<string[]> {
+	getUserRoles(accountId: number): Observable<string[]> {
 		return this.http.get<string[]>(`${this.apiUrl}/account/userRoles?accountId=${accountId}`);
 	}
 }
