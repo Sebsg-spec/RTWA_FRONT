@@ -34,7 +34,7 @@
     "luxon": "^3.4.4",
     "ngx-bootstrap": "^11.0.2",
     "ngx-material-timepicker": "^13.1.1",
-    "primeng": "^16.2.0",
+    "primeng": "^16.9.1",
     "rxjs": "~7.8.0",
     "zone.js": "~0.13.0"
   },
